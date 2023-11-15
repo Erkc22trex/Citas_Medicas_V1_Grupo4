@@ -17,6 +17,9 @@ class Persona {
     private $correoElectronico;
     
     //constructor
+//    public function __construct() {
+//        
+//    }
     public function __construct($idPersona,$primerNombre,$segundoNombre,$primerApellido,$segundoApellido,$dni,$telefono,$sexo,$fechaDeNacimiento,$edad,$direccion,$correoElectronico) {
         $this->idPersona = $idPersona;
         $this->primerNombre = $primerNombre;
@@ -128,7 +131,6 @@ class Persona {
     public function setCorreoElectronico($correoElectronico){
         $this->correoElectronico = $correoElectronico;
     }
-
 
 }
 

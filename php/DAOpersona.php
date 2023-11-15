@@ -13,4 +13,4 @@ class DAOpersona {
     //desconectar de la base de datos
     public function desconectar() {
         this->con->close;}
-}
+}             
