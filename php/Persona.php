@@ -138,7 +138,7 @@ class Persona {
             return "Hubo un error en la preparación de la consulta.";
         }
     }
-    }
+
     // Método para ver información de una persona por su DNI
     public function verPersona($dni) {
         global $conn;
