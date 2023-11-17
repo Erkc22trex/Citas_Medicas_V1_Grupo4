@@ -16,24 +16,24 @@ class Persona {
     private $direccion;
     private $correoElectronico;
     
-    //constructor
-//    public function __construct() {
-//        
-//    }
-    public function __construct($idPersona,$primerNombre,$segundoNombre,$primerApellido,$segundoApellido,$dni,$telefono,$sexo,$fechaDeNacimiento,$edad,$direccion,$correoElectronico) {
-        $this->idPersona = $idPersona;
-        $this->primerNombre = $primerNombre;
-        $this->segundoNombre = $segundoNombre;
-        $this->primerApellido = $primerApellido;
-        $this->segundoApellido = $segundoApellido;
-        $this->dni = $dni;
-        $this->telefono = $telefono;
-        $this->sexo = $sexo;
-        $this->fechaDeNacimiento = $fechaDeNacimiento;
-        $this->edad = $edad;
-        $this->direccion = $direccion;
-        $this->correoElectronico = $correoElectronico;
+//    constructor
+    public function __construct() {
+        
     }
+//    public function __construct($idPersona,$primerNombre,$segundoNombre,$primerApellido,$segundoApellido,$dni,$telefono,$sexo,$fechaDeNacimiento,$edad,$direccion,$correoElectronico) {
+//        $this->idPersona = $idPersona;
+//        $this->primerNombre = $primerNombre;
+//        $this->segundoNombre = $segundoNombre;
+//        $this->primerApellido = $primerApellido;
+//        $this->segundoApellido = $segundoApellido;
+//        $this->dni = $dni;
+//        $this->telefono = $telefono;
+//        $this->sexo = $sexo;
+//        $this->fechaDeNacimiento = $fechaDeNacimiento;
+//        $this->edad = $edad;
+//        $this->direccion = $direccion;
+//        $this->correoElectronico = $correoElectronico;
+//    }
 
     // Getters y setters 
     public function getIdPersona() {
