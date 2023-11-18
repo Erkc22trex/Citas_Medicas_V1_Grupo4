@@ -2,58 +2,155 @@
 include 'Persona.php';
 include 'informacion.php';
 class DAOpersona {
-    private $con;
+   private $conn;
     public function __construct() {
-    }
+        $this->conectar();
+        }
     public function conectar() {
-        $this->con = new mysqli(SERVIDOR, USUARIO, CLAVES, BD) or die ("Error al conectar");
+        $this->conn = new mysqli(SERVIDOR, USUARIO, CLAVES, BD);
+
+        if ($this->conn->connect_error) {
+            die("Error de conexión: " . $this->conn->connect_error);
+        }
     }
         //desconectar de la base de datos
     public function desconectar() {
-        $this->con->close;}
-        
-    public function insertarPersona($objeto){
-    $p = new Persona();
-    $p->$objeto;
-    // Crear la sentencia SQL
-    $sql = "INSERT INTO tblpersona VALUES (
-            '".$p->getIdPersona()."', 
-            '".$p->getPrimerNombre()."', 
-            '".$p->getSegundoNombre()."', 
-            '".$p->getPrimerApellido()."', 
-            '".$p->getSegundoApellido()."', 
-            '".$p->getDni()."', 
-            '".$p->getTelefono()."', 
-            '".$p->getSexo()."', 
-            '".$p->getFechaDeNacimiento()."', 
-            '".$p->getEdad()."', 
-            '".$p->getDireccion()."', 
-            '".$p->getCorreoElectronico()."'
-        )";
-    if($this->con->query($sql)){
-    //mensaje de éxito con sweet alert                             
-    echo"'Inserción exitosa',text:'Se ha agreado con éxito a la base de datos.'";
-    }else{  
-    //mensaje de error con sweet alert   
-    echo"'No se ha podido agregar a la base de datos.'";
-    }
-    $this->desconectar();  
-}    
+        $this->conn->close;}
 
-    }
-    $obj = new DAOpersona();
-$np = new Persona();
-$np->setIdPersona(1);
-$np->setPrimerNombre("Erick");
-$np->setSegundoNombre("David");
-$np->setPrimerApellido("Trejo");
-$np->setSegundoApellido("Cruz");
-$np->setDni("1"); // Asegurarse de que el DNI sea una cadena
-$np->setTelefono(88426812);
-$np->setSexo("Hombre");
-$np->setFechaDeNacimiento("30082001"); // Asegurarse de que la fecha sea una cadena
-$np->setEdad(22);
-$np->setDireccion("Tegucigalpa");
-$np->setCorreoElectronico("et25828@gmail.com");
+    public function ingresarPersona($objeto) {
+    $p = $objeto;
 
-$obj->insertarPersona($np);
+    // Consulta de inserción con placeholders (?)
+     $sql = "INSERT INTO persona (Primer_Nombre, Segundo_Nombre, Primer_Apellido, Segundo_Apellido, Dni, Telefono, Sexo, Fecha_de_nacimiento, Edad, Direccion, Correo_Electronico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if ($stmt) {
+        // Enlazar parámetros
+        $stmt->bind_param("ssssisssiss",
+            $p->getPrimerNombre(),
+            $p->getSegundoNombre(),
+            $p->getPrimerApellido(),
+            $p->getSegundoApellido(),
+            $p->getDni(),
+            $p->getTelefono(),
+            $p->getSexo(),
+            $p->getFechaDeNacimiento(),
+            $p->getEdad(),
+            $p->getDireccion(),
+            $p->getCorreoElectronico()
+        );
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            // Éxito
+            return "Se ha agregado con éxito a la base de datos.";
+        } else {
+            // Error al ejecutar la consulta
+            return "No se ha podido agregar a la base de datos: " . $stmt->error;
+        }
+    } else {
+        // Error en la preparación de la consulta
+        return "Hubo un error en la preparación de la consulta: " . $this->conn->error;
+    }
+}
+
+
+
+    // Método para ver información de una persona por su DNI
+    public function verPersona($dni) {
+        $this->conn;
+
+        // Consulta para obtener información de una persona por su DNI
+        $sql = "SELECT * FROM tblpersona WHERE dni=?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("s", $dni);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // La persona existe, obtener y devolver la información
+            $personaInfo = $result->fetch_assoc();
+            return $personaInfo; // Aquí podrías hacer lo que desees con esta información
+        } else {
+            return "La persona con DNI $dni no existe.";
+        }
+    }
+
+    // Método para actualizar información de una persona por su DNI
+    public function actualizarPersona(Persona $persona) {
+    $this->conn;
+
+    // Preparar la consulta SQL para actualizar una persona por su DNI
+    $sql = "UPDATE tblpersona SET primerNombre=?, segundoNombre=?, primerApellido=?, segundoApellido=?, dni=?, telefono=?, sexo=?, fechaDeNacimiento=?, Edad=?, direccion=?, correoElectronico=? WHERE dni=?";
+    $stmt = $this->conn->prepare($sql);
+
+    // Verificar si la preparación de la consulta fue exitosa
+    if ($stmt) {
+        // Obtener los datos de la persona para actualizar
+        $dni = $persona->getDni();
+        $idPersona = $persona->getDni();
+        $primerNombre = $persona->getPrimerNombre();
+        $segundoNombre = $persona->getSegundoNombre();
+        $primerApellido = $persona->getPrimerApellido();
+        $segundoApellido = $persona->getSegundoApellido();
+        $telefono = $persona->getTelefono();
+        $sexo = $persona->getSexo();
+        $fechaDeNacimiento = $persona->getFechaDeNacimiento();
+        $Edad = $persona->getEdad();
+        $direccion = $persona->getDireccion();
+        $correoElectronico = $persona->getCorreoElectronico();
+
+        // Enlazar parámetros
+        $stmt->bind_param("issssssssiss", 
+            $idPersona,
+            $primerNombre,
+            $segundoNombre,
+            $primerApellido,
+            $segundoApellido,
+            $dni,
+            $telefono,
+            $sexo,
+            $fechaDeNacimiento,
+            $Edad,
+            $direccion,
+            $correoElectronico,
+            $dni // Usamos el DNI como referencia para la actualización
+        );
+
+        // Ejecutar la consulta
+        if ($stmt->execute()) {
+            return "Persona actualizada correctamente.";
+        } else {
+            return "Hubo un problema al actualizar la persona.";
+        }
+    } else {
+        return "Hubo un error en la preparación de la consulta.";
+    }
+}
+
+
+    // Método para eliminar una persona por su DNI
+    public function eliminarPersona($dni) {
+        $this->conn;
+
+        // Preparar la consulta SQL para eliminar una persona por su DNI
+        $sql = "DELETE FROM tblpersona WHERE dni=?";
+        $stmt = $this->conn->prepare($sql);
+
+        // Verificar si la preparación de la consulta fue exitosa
+        if ($stmt) {
+            // Enlazar parámetros
+            $stmt->bind_param("s", $dni);
+
+            // Ejecutar la consulta
+            if ($stmt->execute()) {
+                return "Persona eliminada correctamente.";
+            } else {
+                return "Hubo un problema al eliminar la persona.";
+            }
+        } else {
+            return "Hubo un error en la preparación de la consulta.";
+        }
+    }
+    }

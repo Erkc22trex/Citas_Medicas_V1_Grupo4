@@ -2,4 +2,4 @@
 define ('SERVIDOR','localhost',);
 define('USUARIO','root');
 define('CLAVES','');
-define('BD','Citas');
+define('BD','gestion_de_citas');

@@ -203,5 +203,21 @@ class Medico extends Persona {
             return "El médico con DNI $dni no existe.";
         }
     }
+    public function verificarDisponibilidad($fecha, $hora, $idMedico) {
+    global $conn;
+
+    // Consulta para verificar si el médico tiene una cita en esa fecha y hora
+    $sql = "SELECT * FROM citas WHERE fecha=? AND hora=? AND idMedico=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssi", $fecha, $hora, $idMedico);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        return false; // El médico tiene una cita programada para esa fecha y hora
+    } else {
+        return true; // El médico está disponible para esa fecha y hora
+    }
+}
 }
 
