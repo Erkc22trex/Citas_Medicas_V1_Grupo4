@@ -3,62 +3,41 @@ include 'DAOPersona.php';
 
 // Verificar si se recibió una solicitud POST desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Instanciar y utilizar DAOPersona para manejar la acción solicitada
-    $daoPersona = new DAOPersona();
+    // Verificar si se está recibiendo la acción 'Insertar Persona'
+         if (isset($_POST['accion'])){
+        echo "alert(' Wnrew XCss' );";
+        // Crear objeto Persona con los datos del formulario
+        $p = new Persona();
+        $p->setPrimerNombre($_POST['primerNombre']);
+        $p->setSegundoNombre($_POST['segundoNombre']);
+        $p->setPrimerApellido($_POST['primerApellido']);
+        $p->setSegundoApellido($_POST['segundoApellido']);
+        $p->setDni($_POST['dni']);
+        $p->setTelefono($_POST['telefono']);
+        $p->setSexo($_POST['sexo']);
+        $p->setFechaDeNacimiento($_POST['fechaDeNacimiento']);
+        $p->setEdad($_POST['edad']);
+        $p->setDireccion($_POST['direccion']);
+        $p->setCorreoElectronico($_POST['correoElectronico']);
 
-    // Verificar la acción solicitada
-    if ($_POST["accion"] === "Ver Persona") {
-        // Código para ver persona según requerimientos
-        $dni = $_POST["dni"];
-        $resultado = $daoPersona->verPersona($dni);
+        // Instancia la clase DAOPersona
+        $daoPersona = new DAOPersona();
 
-        if (is_array($resultado)) {
-            // Mostrar los datos en una tabla o como desees
-            echo "<table>";
-            foreach ($resultado as $campo => $valor) {
-                echo "<tr><td>$campo</td><td>$valor</td></tr>";
-            }
-            echo "</table>";
+        // Llama al método ingresarPersona con el objeto Persona
+        $resultado = $daoPersona->ingresarPersona($p);
+
+        // Verifica si la inserción fue exitosa o si hubo algún error
+        if (strpos($resultado, 'correctamente') !== false) {
+            // Inserción exitosa
+            error_log("Inserción exitosa: " . $resultado);
         } else {
-            echo $resultado; // Mostrar mensaje de error si la persona no se encuentra
+            // Error en la inserción
+            error_log("Error al insertar persona: " . $resultado);
         }
-    } elseif ($_POST["accion"] === "Actualizar Persona") {
-        // Código para actualizar persona según requerimientos
-    } elseif ($_POST["accion"] === "Eliminar Persona") {
-        // Código para eliminar persona según requerimientos
-    } elseif ($_POST["accion"] === "Insertar Persona") {
-        // Crear un objeto Persona con los datos del formulario
-        $persona = new Persona();
-        $persona->setPrimerNombre($_POST["primerNombre"]);
-        $persona->setSegundoNombre($_POST["segundoNombre"]);
-        $persona->setPrimerApellido($_POST["primerApellido"]);
-        $persona->setSegundoApellido($_POST["segundoApellido"]);
-        $persona->setDni($_POST["dni"]);
-        $persona->setTelefono($_POST["telefono"]);
-        $persona->setSexo($_POST["sexo"]);
-        $persona->setFechaDeNacimiento($_POST["fechaDeNacimiento"]);
-        $persona->setEdad($_POST["edad"]);
-        $persona->setDireccion($_POST["direccion"]);
-        $persona->setCorreoElectronico($_POST["correoElectronico"]);
 
-        // Llamar a la función para ingresar persona en DAOPersona
-        $resultado = $daoPersona->ingresarPersona($persona);
-        echo $resultado;
+        echo $resultado; // Esto puede ayudar a ver el resultado en la respuesta del AJAX
+    }
+ else {
+        echo 'alert(" no lo hice" )';    
     }
 }
-
-// Verificar si se recibió una solicitud GET desde el formulario de búsqueda por DNI
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    // Obtener el DNI ingresado para la búsqueda
-    $dni = $_GET["dni"];
-
-    // Instanciar y utilizar DAOPersona para buscar la persona por DNI
-    $daoPersona = new DAOPersona();
-    $resultadoBusqueda = $daoPersona->verPersona($dni);
-
-    // Mostrar el resultado de la búsqueda en la tabla de resultados del formulario
-    // ...
-}
-
-
-

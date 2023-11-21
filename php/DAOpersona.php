@@ -65,7 +65,7 @@ class DAOPersona {
         }
     }
 
-        public function ingresarPersona($objeto) {
+    public function ingresarPersona($objeto) {
     $p = $objeto;
 
     // Verificar si la persona ya existe antes de insertarla
@@ -142,7 +142,7 @@ class DAOPersona {
     }
 }
 
-public function actualizarPersona(Persona $persona) {
+    public function actualizarPersona(Persona $persona) {
     $sql = "UPDATE persona SET Primer_Nombre=?, Segundo_Nombre=?, Primer_Apellido=?, Segundo_Apellido=?, Telefono=?, Sexo=?, Fecha_de_nacimiento=?, Edad=?, Direccion=?, Correo_Electronico=? WHERE Dni=?";
     $stmt = $this->conn->prepare($sql);
 
@@ -183,7 +183,7 @@ public function actualizarPersona(Persona $persona) {
     }
 }
 
-public function eliminarPersona($dni) {
+    public function eliminarPersona($dni) {
     $sql = "DELETE FROM persona WHERE Dni=?";
     $stmt = $this->conn->prepare($sql);
 
