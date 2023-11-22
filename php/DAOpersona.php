@@ -10,7 +10,7 @@ class DAOPersona {
     }
 
     public function conectar() {
-        $this->conn = new mysqli(SERVIDOR, USUARIO, CLAVES, BD);
+        $this->conn = new mysqli("127.0.0.1","admin","1234", "crud_pacientes_mysql");
 
         if ($this->conn->connect_error) {
             die("Error de conexión: " . $this->conn->connect_error);
