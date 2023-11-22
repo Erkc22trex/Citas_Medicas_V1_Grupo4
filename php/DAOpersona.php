@@ -109,7 +109,7 @@ class DAOPersona {
         // Ejecutar la consulta
         if ($stmt->execute()) {
             // Éxito
-            return $this->getTabla();
+            return "La persona se ha ingresado correctamente";
         } else {
             // Error al ejecutar la consulta
             return "No se ha podido agregar a la base de datos: " . $stmt->error;
@@ -142,7 +142,7 @@ class DAOPersona {
     }
 }
 
-    public function actualizarPersona(Persona $persona) {
+    public function actualizarPersona($persona) {
     $sql = "UPDATE persona SET Primer_Nombre=?, Segundo_Nombre=?, Primer_Apellido=?, Segundo_Apellido=?, Telefono=?, Sexo=?, Fecha_de_nacimiento=?, Edad=?, Direccion=?, Correo_Electronico=? WHERE Dni=?";
     $stmt = $this->conn->prepare($sql);
 

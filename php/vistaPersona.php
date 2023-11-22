@@ -64,7 +64,7 @@
     <div style="width: 48%;">
             <div class="mb-3">
         <label for="fechaDeNacimiento" class="form-label">Fecha de Nacimiento:</label>
-        <input type="date" class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+        <input type="date" class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento" placeholder="AAAA-MM-DD"><br><br>
     </div>
     </div>
 
@@ -92,10 +92,63 @@
     <div class="botones">
         <input type="submit" class="btn btn-primary" name="accion"  id ="accion" value="Insertar Persona">
        <input type="submit" class="btn btn-primary" name="accion2" id="accion2" value="Ver Persona">
-       <!-- <input type="submit" class="btn btn-primary" name="accion" value="Actualizar Persona">
-        <input type="submit" class="btn btn-primary" name="accion" value="Eliminar Persona">-->
+        <input type="submit" class="btn btn-primary" name="accion3" id="accion3" value="Actualizar Persona">
+        <input type="submit" class="btn btn-primary" name="accion4" value="Eliminar Persona">-->
     </div> 
 </form>
+    <script>
+        $(document).ready(function() {
+    $('#accion').click(function(e) {
+        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
+
+        // Obtener los valores de los campos del formulario
+        var primerNombre = $('#primerNombre').val();
+        var segundoNombre = $('#segundoNombre').val();
+        var primerApellido = $('#primerApellido').val();
+        var segundoApellido = $('#segundoApellido').val();
+        var dni = $('#dni').val();
+        var telefono = $('#telefono').val();
+        var sexo = $('#sexo').val();
+        var fechaDeNacimiento = $('#fechaDeNacimiento').val();
+        var edad = $('#edad').val();
+        var direccion = $('#direccion').val();
+        var correoElectronico = $('#correoElectronico').val();
+        // Obtener el resto de los campos...
+
+        // Realizar solicitud AJAX al controlador PHP
+        $.ajax({
+            type: 'POST',
+            url: 'ControladorPersona.php',
+            data: {
+                accion: 'insertarPersona', // Indicador de acción para insertar persona
+                primerNombre: primerNombre,
+                segundoNombre: segundoNombre,
+                primerApellido: primerApellido,
+                segundoApellido: segundoApellido,
+                dni: dni,
+                telefono: telefono,
+                sexo: sexo,
+                fechaDeNacimiento: fechaDeNacimiento,
+                edad: edad,
+                direccion: direccion,
+                correoElectronico: correoElectronico,
+                
+                
+                // Resto de los campos...
+            },
+            success: function(response) {
+                // Mostrar un mensaje de éxito o manejar la respuesta
+                alert(response); // Puedes mostrar una alerta, por ejemplo
+            },
+            error: function(xhr, status, error) {
+                // Manejar errores si la solicitud falla
+                console.error(error);
+                alert("Hubo un error al ingresar la persona.");
+            }
+        });
+    });
+});
+</script>
   
 <!-- formulario para búsquedas -->
               <form action="ControladorPersona.php" method="post" name="formulario2" id="formulario2" style="width: 200px; position: absolute; top: 10px; right: 10px;">
@@ -104,7 +157,107 @@
         <input type="text" class="form-control" id="buscar" name="buscar" placeholder="Ingrese DNI" >
     </div>
 </form>
+<script>
+    $(document).ready(function() {
+    $('#accion2').click(function(e) {
+        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
 
+        var dni = $('#buscar').val(); // Obtener el DNI ingresado
+
+        // Realizar solicitud AJAX al controlador PHP
+        $.ajax({
+            type: 'POST',
+            url: 'ControladorPersona.php', // Ruta del controlador
+            data: { action: 'verPersona', dni: dni }, // Datos a enviar al servidor
+            success: function(response) {
+                // Verificar si la respuesta contiene datos de la persona
+                if (response !== "La persona con DNI " + dni + " no existe.") {
+                    // Llenar los campos del formularioPersona con los datos recibidos
+                    var persona = JSON.parse(response);
+
+                    $('#primerNombre').val(persona.Primer_Nombre);
+                    $('#segundoNombre').val(persona.Segundo_Nombre);
+                    $('#primerApellido').val(persona.Primer_Apellido);
+                    $('#segundoApellido').val(persona.Segundo_Apellido);
+                    $('#dni').val(persona.Dni);
+                    $('#telefono').val(persona.Telefono);
+                    $('#sexo').val(persona.Sexo);
+                    $('#fechaDeNacimiento').val(persona.Fecha_De_Nacimiento);
+                    $('#edad').val(persona.Edad);
+                    $('#direccion').val(persona.Direccion);
+                    $('#correoElectronico').val(persona.Correo_Electronico);
+                    // Resto de los campos...
+
+                    alert("Datos de la persona obtenidos correctamente.");
+                } else {
+                    alert(response); // Mostrar mensaje si la persona no existe
+                }
+            },
+            error: function(xhr, status, error) {
+                // Manejar errores si la solicitud falla
+                console.error(error);
+                alert("Hubo un error al buscar la persona.");
+            }
+        });
+    });
+});
+    </script>
+    
+    <!-- Actualizar Persona -->
+    <script>
+        $(document).ready(function() {
+    $('#accion3').click(function(e) {
+        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
+
+        // Obtener el DNI de la persona que se desea actualizar
+//        var dni = $('#dni').val();
+        // Obtener los valores actualizados de los campos del formulario
+        var primerNombre = $('#primerNombre').val();
+        var segundoNombre = $('#segundoNombre').val();
+        var primerApellido = $('#primerApellido').val();
+        var segundoApellido = $('#segundoApellido').val();
+        var dni = $('#dni').val();
+        var telefono = $('#telefono').val();
+        var sexo = $('#sexo').val();
+        var fechaDeNacimiento = $('#fechaDeNacimiento').val();
+        var edad = $('#edad').val();
+        var direccion = $('#direccion').val();
+        var correoElectronico = $('#correoElectronico').val();
+        // Obtener el resto de los campos...
+
+        // Realizar solicitud AJAX al controlador PHP
+        $.ajax({
+            type: 'POST',
+            url: 'ControladorPersona.php',
+            data: {
+                accion: 'Actualizar Persona', // Indicador de acción para actualizar persona
+                dni: dni, // DNI para identificar la persona
+                primerNombre: primerNombre,
+                segundoNombre: segundoNombre,
+                primerApellido: primerApellido,
+                segundoApellido: segundoApellido,
+                dni: dni,
+                telefono: telefono,
+                sexo: sexo,
+                fechaDeNacimiento: fechaDeNacimiento,
+                edad: edad,
+                direccion: direccion,
+                correoElectronico: correoElectronico,
+                // Resto de los campos actualizados...
+            },
+            success: function(response) {
+                // Mostrar un mensaje de éxito o manejar la respuesta
+                alert(response); // Puedes mostrar una alerta, por ejemplo
+            },
+            error: function(xhr, status, error) {
+                // Manejar errores si la solicitud falla
+                console.error(error);
+                alert("Hubo un error al actualizar la persona.");
+            }
+        });
+    });
+});
+        </script>
     <hr>
 </body>
 </html>
