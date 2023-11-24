@@ -47,4 +47,14 @@ class ConexionDB {
         $resultado = $this->conexion->query($consulta);
         return $resultado;
     }
+
+    public function prepare_query($sql) {
+        $resultado = $this->conexion->prepare($sql);
+        return $resultado;
+    }
+
+    public function error() {
+        $resultado = $this->conexion->error();
+        return $resultado;
+    }
 }

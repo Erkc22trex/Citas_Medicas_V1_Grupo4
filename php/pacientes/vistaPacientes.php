@@ -1,8 +1,8 @@
 <?php
-    include 'DAOPacientes.php';
-    include 'Paciente.php';
-    $P = new DAOPacientes();
-    $pac = new Paciente();
+include 'DAOPacientes.php';
+include 'Paciente.php';
+$P = new DAOPacientes();
+$pac = new Paciente();
 ?>
 
 <head>
@@ -26,13 +26,16 @@
                 <input type="text" class="form-control" id="dni" name="dni" maxlength="100">
 
                 <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100">
+                <input type="text" class="form-control" id="nombre" name="nombre">
+
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" id="apellido" name="apellido">
 
                 <label for="telefono">Telefono</label>
                 <input type="text" class="form-control" id="telefono" name="telefono" maxlength="15">
 
-                <label for="citas">Citas</label>
-                <input type="date" class="form-control" id="citas" name="citas" maxlength="15">
+                <label for="edad">Edad</label>
+                <input type="number" class="form-control" id="edad" name="edad" maxlength="15">
 
                 <label for="sexo">sexo</label>
                 <input type="text" class="form-control" id="sexo" name="sexo" maxlength="15">
@@ -40,8 +43,11 @@
                 <label for="correo">Correo</label>
                 <input type="text" class="form-control" id="correo" name="correo" maxlength="15">
 
-                <label for="fch_nac">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="fch_nac" name="fch_nac" maxlength="15">
+                <label for="fecha_nacimiento">Fecha de nacimiento</label>
+                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento">
+
+                <label for="direccion">Direccion</label>
+                <input type="text" class="form-control" id="direccion" name="direccion">
             </div>
             <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary">Agregar</button>
             <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger" disabled>modificar</button>
@@ -70,84 +76,25 @@
                         <td>
         </form>
         <button type="submit" id="btnQuitarF" name="btnQuitarF" class="btn btn-success" onclick="return recargar()">Quitar filtro</button>
-        
+
         </td>
-        </tr> 
+        </tr>
         </table>
         </div>
         </form>
-
-        <script>
-            function cargar(id, dni, nombre, telefono, citas, sexo, fch_nac, correo) {
-                document.formulario1.codigo.value = id;
-                document.formulario1.dni.value = dni;
-                document.formulario1.nombre.value = nombre;
-                document.formulario1.telefono.value = telefono;
-                document.formulario1.citas.value = citas;
-                document.formulario1.sexo.value = sexo;
-                document.formulario1.fch_nac.value = fch_nac;
-                document.formulario1.correo.value = correo;
-                document.getElementById("btnModificar").disabled = false;
-                document.getElementById("btnEliminar").disabled = false;
-                document.formulario1.codigo.readOnly = true;
-            }
-
-            function validar() {
-                // Obtener el formulario
-                const form = document.getElementById("formulario1");
-
-                // Comprobar que todos los campos estén rellenos
-                const inputs = form.querySelectorAll("input");
-                for (const input of inputs) {
-                    if (input.value === "") {
-                        // Mostrar un sweet alert
-                        Swal.fire({
-                            title: "Error",
-                            text: "El campo " + input.id + " es obligatorio",
-                            icon: "error",
-                            buttons: ["Aceptar"]
-                        });
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            function validar2() {
-                // Obtener el formulario
-                const form = document.getElementById("formulario2");
-
-                // Comprobar que todos los campos estén rellenos
-                const inputs = form.querySelectorAll("input");
-                for (const input of inputs) {
-                    if (input.value === "") {
-                        // Mostrar un sweet alert
-                        Swal.fire({
-                            title: "Error",
-                            text: "El campo " + input.id + " es obligatorio",
-                            icon: "error",
-                            buttons: ["Aceptar"]
-                        });
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            function recargar() {
-                location.reload();
-            }
-        </script>
 
         <?php
         $foot = "</section><section style='position: relative; margin: auto; width: 900px;'><br><br>";
         if (isset($_REQUEST["btnAgregar"])) {
             $pac->setDni($_REQUEST["dni"]);
             $pac->setNombre($_REQUEST["nombre"]);
+            $pac->setApellido($_REQUEST["apellido"]);
             $pac->setTelefono($_REQUEST["telefono"]);
+            $pac->setEdad($_REQUEST["edad"]);
             $pac->setSexo($_REQUEST["sexo"]);
-            $pac->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
             $pac->setCorreo($_REQUEST["correo"]);
+            $pac->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
+            $pac->setDireccion($_REQUEST["direccion"]);
             $P->ingresarPaciente($pac);
             echo $foot . $P->getTabla() . "</section>";
         } elseif (isset($_REQUEST["btnModificar"])) {
@@ -171,16 +118,78 @@
         } elseif (isset($_REQUEST["btnBuscar"])) {
             $v1 = $_REQUEST["buscar"];
             $v2 = $_REQUEST["criterio"];
+
+        echo $P->filtrarPaciente($v1, $v2);
+        } else {
+            echo $foot . $P->getTabla() . "</section>";
+        }
         ?>
     </section>
     <section style="position: relative; margin: auto; width: 900px;">
         <br><br>
-    <?php
-        echo $P->filtrarPaciente($v1, $v2);
-        } else {
-            echo $foot . $P->getTabla() . "</section>";
-        } 
-    ?>
+
+
+    <script>
+        function cargar(id, dni, nombre, telefono, edad, sexo, fch_nac, correo) {
+            document.formulario1.codigo.value = id;
+            document.formulario1.dni.value = dni;
+            document.formulario1.nombre.value = nombre;
+            document.formulario1.telefono.value = telefono;
+            document.formulario1.edad.value = edad;
+            document.formulario1.sexo.value = sexo;
+            document.formulario1.fch_nac.value = fch_nac;
+            document.formulario1.correo.value = correo;
+            document.getElementById("btnModificar").disabled = false;
+            document.getElementById("btnEliminar").disabled = false;
+            document.formulario1.codigo.readOnly = true;
+        }
+
+        function validar() {
+            // Obtener el formulario
+            const form = document.getElementById("formulario1");
+
+            // Comprobar que todos los campos estén rellenos
+            const inputs = form.querySelectorAll("input");
+            for (const input of inputs) {
+                if (input.value === "") {
+                    // Mostrar un sweet alert
+                    Swal.fire({
+                        title: "Error",
+                        text: "El campo " + input.id + " es obligatorio",
+                        icon: "error",
+                        buttons: ["Aceptar"]
+                    });
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function validar2() {
+            // Obtener el formulario
+            const form = document.getElementById("formulario2");
+
+            // Comprobar que todos los campos estén rellenos
+            const inputs = form.querySelectorAll("input");
+            for (const input of inputs) {
+                if (input.value === "") {
+                    // Mostrar un sweet alert
+                    Swal.fire({
+                        title: "Error",
+                        text: "El campo " + input.id + " es obligatorio",
+                        icon: "error",
+                        buttons: ["Aceptar"]
+                    });
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function recargar() {
+            location.reload();
+        }
+    </script>
 </body>
 
 </html>
