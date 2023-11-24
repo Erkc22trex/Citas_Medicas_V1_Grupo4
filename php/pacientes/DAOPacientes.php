@@ -5,52 +5,43 @@
  *
  * @author joelv
  */
+include '../ConexionDB.php';
+
 class DAOPacientes {
 
     private $conn;
 
     public function __construct() {
-        $this->conectar();
-    }
-
-    public function conectar() {
-        $this->conn = new mysqli("127.0.0.1", "admin", "1234", "crud_pacientes_mysql");
-
-        if ($this->conn->connect_error) {
-            die("Error de conexión: " . $this->conn->connect_error);
-        }
-    }
-
-    public function desconectar() {
-        $this->conn->close();
+        $this->conn = new ConexionDB("127.0.0.1", "admin", "1234", "gestion_de_citas");
     }
 
     public function getTabla() {
-        $sql = "SELECT * FROM tbl_pacientes";
-        $this->conectar();
-        $res = $this->conn->query($sql);// res: response
+        $sql = "SELECT * FROM paciente pac INNER JOIN persona per ON pac.id_persona = per.id_persona;";
+
+        $res = $this->conn->hacerConsulta($sql);
         
         $tabla = "<table class='table table-dark'><tbody>";
 
         while ($tupla = mysqli_fetch_assoc($res)) {
              $tabla .= "<tr>"
-                    ."<td>".$tupla["id"]."</td>"
+                    ."<td>".$tupla["id_persona"]."</td>"
                     ."<td>".$tupla["dni"]."</td>"
                     ."<td>".$tupla["nombre"]."</td>"
+                    ."<td>".$tupla["apellido"]."</td>"
                     ."<td>".$tupla["telefono"]."</td>"
-                    ."<td>".$tupla["citas"]."</td>"
+                    ."<td>".$tupla["edad"]."</td>"
                     ."<td>".$tupla["sexo"]."</td>"
-                    ."<td>".$tupla["fch_nac"]."</td>"
+                    ."<td>".$tupla["fecha_nacimiento"]."</td>"
                     ."<td>".$tupla["correo"]."</td>"
+                    ."<td>".$tupla["direccion"]."</td>"
                     ."<td>"
                     ."<a href=\"javascript:cargar('"
-                    .$tupla["id"]."','"
+                    .$tupla["id_persona"]."','"
                     .$tupla["dni"]."','"
                     .$tupla["nombre"]."','"
                     .$tupla["telefono"]."','"
-                    .$tupla["citas"]."','"
                     .$tupla["sexo"]."','"
-                    .$tupla["fch_nac"]."','"
+                    .$tupla["fecha_nacimiento"]."','"
                     .$tupla["correo"]."','"
                     ."')\">Seleccionar</a></td>" 
                     ."</tr>";  
@@ -58,14 +49,14 @@ class DAOPacientes {
 
         $tabla .= "</tbody></table>";
         $res->close();
-        $this->desconectar();
+        $this->conn->cerrarConexion();
         return $tabla;
     }
 
     public function existe($objeto) {
         $p = $objeto;
         $sql = "SELECT * FROM tbl_pacientes WHERE Dni = ?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->hacerConsulta($sql);
 
         if ($stmt) {
             $dni = $p->getDni();
@@ -96,7 +87,7 @@ class DAOPacientes {
         // Consulta de inserción con placeholders (?) "b", "d", "i", "s"
         $sql = "INSERT INTO tbl_pacientes (dni, nombre, telefono, citas, sexo, fch_nac, correo) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->hacerConsulta($sql);
 
         if ($stmt) {
             $dni = $p->getDni();
@@ -128,13 +119,13 @@ class DAOPacientes {
             }
         } else {
             // Error en la preparación de la consulta
-            return "Hubo un error en la preparación de la consulta: " . $this->conn->error;
+            return "Hubo un error en la preparación de la consulta: ";
         }
     }
 
     public function verPaciente($dni) {
-        $sql = "SELECT * FROM tbl_pacientes WHERE Dni=?";
-        $stmt = $this->conn->prepare($sql);
+        $sql = "SELECT * FROM pacientes WHERE Dni=?";
+        $stmt = $this->conn->hacerConsulta($sql);
 
         if ($stmt) {
             $stmt->bind_param("s", $dni);
@@ -157,22 +148,20 @@ class DAOPacientes {
     public function actualizarPaciente(Paciente $paciente) {
         //dni, nombre, telefono, citas, sexo, fch_nac, correo
         $sql = "UPDATE tbl_pacientes SET dni=?, nombre=?, telefono=?, citas=?, sexo=?, fch_nac=?, correo=? WHERE dni=?";
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->hacerConsulta($sql);
 
         if ($stmt) {
             $dni = $paciente->getDni();
             $nombre = $paciente->getNombre();
             $telefono = $paciente->getTelefono();
-            $citas = $paciente->getCitas();
             $sexo = $paciente->getSexo();
-            $fch_nac = $paciente->getFchNac();
+            $fch_nac = $paciente->getFechaNacimiento();
             $correo = $paciente->getCorreo();
 
-            $stmt->bind_param("ssssssss",
+            $stmt->bind_param("sssssss",
                     $dni,
                     $nombre,
                     $telefono,
-                    $citas,
                     $sexo,
                     $fch_nac,
                     $correo,
@@ -192,7 +181,7 @@ class DAOPacientes {
     public function eliminarPaciente(Paciente $paciente) {
         $sql = "DELETE FROM tbl_pacientes WHERE dni=?";
         $dni = $paciente->getDni();
-        $stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->hacerConsulta($sql);
 
         if ($stmt) {
             $stmt->bind_param("s", $dni);
@@ -206,4 +195,51 @@ class DAOPacientes {
             return "Hubo un error en la preparación de la consulta.";
         }
     }
+
+
+    public function filtrarPaciente($valor, $criterio) {
+        // Cambiamos la consulta para buscar solo por DNI
+        $sql = "SELECT * FROM persona WHERE dni = '$valor'";
+
+        $res = $this->conn->hacerConsulta($sql);
+
+        // Resto del código para generar la tabla, manteniendo los elementos deseados en el while
+        $tabla = "<table class='table table-dark'>"
+                . "<thead class='thead thead-light'>"
+                . "<tr><th>Primer Nombre</th><th>Segundo Nombre</th>"
+                . "<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
+                . "<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
+                . "<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
+                . "</tr></thead><tbody>";
+
+        while ($tupla = mysqli_fetch_assoc($res)) {
+            // Mantenemos solo las columnas necesarias (puedes agregar o quitar según lo necesites)
+            $tabla .= "<tr>"
+                    . "<td>" . $tupla["primerNombre"] . "</td>"
+                    . "<td>" . $tupla["segundoNombre"] . "</td>"
+                    . "<td>" . $tupla["primerApellido"] . "</td>"
+                    . "<td>" . $tupla["segundoApellido"] . "</td>"
+                    . "<td>" . $tupla["dni"] . "</td>"
+                    . "<td>" . $tupla["telefono"] . "</td>"
+                    . "<td>" . $tupla["sexo"] . "</td>"
+                    . "<td>" . $tupla["fechaDeNacimiento"] . "</td>"
+                    . "<td>" . $tupla["edad"] . "</td>"
+                    . "<td>" . $tupla["direccion"] . "</td>"
+                    . "<td>" . $tupla["correoElectronico"] . "</td>"
+                    . "<td><a href=\"javascript:cargar('" . $tupla["primerNombre"]
+                    . "','" . $tupla["segundoNombre"] . "','" . $tupla["primerApellido"] . "','" . $tupla["segundoApellido"]
+                    . "','" . $tupla["dni"] . "','" . $tupla["telefono"] . "','" . $tupla["sexo"]
+                    . "','" . $tupla["fechaDeNacimiento"] . "','" . $tupla["edad"] . "','" . $tupla["direccion"]
+                    . "','" . $tupla["correoElectronico"]
+                    . "')\">Seleccionar</a></td>"
+                    . "</tr>";
+        }
+
+        $tabla .= "</tbody></table>";
+        $res->close();
+        $this->conn->cerrarConexion();
+        return $tabla;
+    }
 }
+
+?>

@@ -2,34 +2,25 @@
 
 class Paciente extends Persona {
     //atributos
-    // private $conn;
-    // private $dni;
-    // private $nombre;
-    // private $telefono;
-    // private $citas;
-    // private $sexo;
-    // private $fch_nac;
-    // private $correo;
-    private $id_paciente;
+    private $idPaciente;
 
-    public function __construct($id, $nombre, $apellido, $fechaNacimiento, $otrosDatos, $rol, $id_paciente) {
-        parent::__construct($id, $nombre, $apellido, $fechaNacimiento, $otrosDatos, $rol);
-        $this->id_paciente = $id_paciente;
-    }
+    // public function __construct($idPersona, $nombre, $apellido, $telefono, $dni, $edad, $fechaNacimiento, $direccion, $idPaciente) {
+    //     parent::__construct($idPersona, $nombre, $apellido, $telefono, $dni, $edad, $fechaNacimiento, $direccion);
+    //     $this->idPaciente = $idPaciente;
+    // }
     
     //constructor
-    public function construct() {
+    public function __construct() {
         
     }
     
     // Getters y setters 
     public function getIdPaciente() {
-        return $this->id;
+        return $this->idPaciente;
     }
 
-    public function setIdPaciente($id){
-        $this->id = $id;
+    public function setIdPaciente($idPaciente){
+        $this->idPaciente = $idPaciente;
     }
-
 }
 
