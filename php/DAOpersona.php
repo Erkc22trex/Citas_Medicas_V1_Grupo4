@@ -1,4 +1,18 @@
 <?php
+<<<<<<< HEAD
+//HOLA
+    include 'informacion.php'; /* lo primero que debemos hacer es garantizar el acceso de ésta clase a la BD con la tabla Persona */
+    include 'Persona.php';     //incluir también la clase que responde a la tabla para la que hacemos el DAO
+       
+    class DAOPersona{
+        private $con; // para la conexión a la base de datos
+        
+        public function __construct() {}
+        
+        //Método para conectarse a la base de datos
+        public function conectar() {
+            $this->con  =   new mysqli(SERVIDOR, USUARIO, CLAVES, BD) or die ("Error al conectar");            
+=======
 include 'Persona.php';
 include 'informacion.php';
 
@@ -14,89 +28,84 @@ class DAOPersona {
 
         if ($this->conn->connect_error) {
             die("Error de conexión: " . $this->conn->connect_error);
+>>>>>>> cfa5ab42ee1a99bb59963d3ebf7e1752b79a121e
         }
-    }
-
-    public function desconectar() {
-        $this->conn->close();
-    }
-
-    public function getTabla() {
-        $sql = "SELECT * FROM persona";
-        $this->conectar();
-        $res = $this->conn->query($sql);
-
-        $tabla = "<table class='table table-dark'>
-                    <!-- Encabezados de la tabla -->
-                    <!-- ... -->
-                    <tbody>";
-
-        while ($tupla = mysqli_fetch_assoc($res)) {
-            // Construcción de filas con datos de la base de datos
-            // ...
-        }
-
-        $tabla .= "</tbody></table>";
-        $res->close();
-        $this->desconectar();
-        return $tabla;
-    }
-
-    public function existe($objeto) {
-        $p = $objeto;
-        $sql = "SELECT * FROM persona WHERE Dni = ?";
-        $stmt = $this->conn->prepare($sql);
-
-        if ($stmt) {
-            $dni = $p->getDni();
-            $stmt->bind_param("s", $dni);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $stmt->close();
-                return true;
-            } else {
-                $stmt->close();
-                return false;
+        
+        //método para cerrar la conexión a la base de datos
+        public function desconectar() { $this->con->close(); }
+        
+        //obtener todas las tuplas de la tabla para la que creamos el DAO
+        public function getTabla() {
+            $sql    =   "select * from persona"; //consulta SQL para obtener las tuplas
+            $this->conectar();                      //conectarse a la BD
+            $res = $this->con->query($sql);         //almaceno en res el resultado de la consulta           
+            /*mostrar la tabla, para el css usaremos bootstrap. El bootstrap se incluirá en los objetos de negocio, "las vistas"
+            //creamos un string con el HTML que mostraremos en el lado del cliente
+            //res ya tiene los datos de la tabla*/
+            $tabla = "<table class = 'table table-dark'>"
+                    . "<thead class = 'thead thead-light'>";
+            $tabla .= "<tr><th>ID</th><th>Primer Nombre</th><th>Segundo Nombre</th>"
+                    ."<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
+                    ."<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
+                    ."<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
+                    ."</tr></thead><tbody>";
+            //cuerpo de la tabla              
+            while($tupla = mysqli_fetch_assoc($res)){
+                $tabla .= "<tr>"
+//                    ."<td>".$tupla["idPersona"]."</td>"
+                    ."<td>".$tupla["primerNombre"]."</td>"
+                    ."<td>".$tupla["segundoNombre"]."</td>"
+                    ."<td>".$tupla["primerApellido"]."</td>"
+                    ."<td>".$tupla["segundoApellido"]."</td>"
+                    ."<td>".$tupla["dni"]."</td>"
+                    ."<td>".$tupla["telefono"]."</td>"
+                    ."<td>".$tupla["sexo"]."</td>"
+                    ."<td>".$tupla["fechaDeNacimiento"]."</td>"
+                    ."<td>".$tupla["edad"]."</td>"
+                    ."<td>".$tupla["direccion"]."</td>"
+                    ."<td>".$tupla["correoElectronico"]."</td>"
+                    ."<td><a href=\"javascript:cargar('".$tupla["primerNombre"]
+                    ."','".$tupla["segundoNombre"]."','".$tupla["primerApellido"]."','".$tupla["segundoApellido"]
+                    ."','".$tupla["dni"]."','".$tupla["telefono"]."','".$tupla["sexo"]
+                    ."','".$tupla["fechaDeNacimiento"]."','".$tupla["edad"]."','".$tupla["direccion"]
+                    ."','".$tupla["correoElectronico"]
+                    ."')\">Seleccionar</a></td>" 
+                    ."</tr>";               
             }
-        } else {
-            return "Hubo un error en la preparación de la consulta.";
+            $tabla .="</tbody></table>";
+            $res->close();
+            $this->desconectar();                   //cierro la conexión a la BD
+            return $tabla;
         }
-    }
-
-    public function ingresarPersona($objeto) {
+        
+        public function existe($objeto) {
+            $p   = new Persona();
+            $p   = $objeto;
+            $sql = "select * from persona where dni = ".$p->getDni();
+            $this->conectar();
+            $filas = $this->con->query($sql);
+            if($filas->num_rows){ return true;} else { return false;}
+            $filas->close();
+            $this->desconectar();
+        }
+        
+    public function insertar($objeto) {                     
     $p = $objeto;
+    
+    if ($this->existe($p)) {  
+        echo "<script>swal({title:'Error',text:'Ya existe una persona con ese DNI.', type: 'error'});</script>";
+    } else {   
+        $sql = "INSERT INTO persona (primerNombre, segundoNombre, primerApellido, segundoApellido, dni, telefono, sexo, fechaDeNacimiento, edad, direccion, correoElectronico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    // Verificar si la persona ya existe antes de insertarla
-    if ($this->existe($p)) {
-        return "La persona ya existe en la base de datos.";
-    }
-
-    // Consulta de inserción con placeholders (?)
-    $sql = "INSERT INTO persona (Primer_Nombre, Segundo_Nombre, Primer_Apellido, Segundo_Apellido, Dni, Telefono, Sexo, Fecha_de_nacimiento, Edad, Direccion, Correo_Electronico) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $this->conn->prepare($sql);
-
-    if ($stmt) {
-        $primerNombre = $p->getPrimerNombre();
-        $segundoNombre = $p->getSegundoNombre();
-        $primerApellido = $p->getPrimerApellido();
-        $segundoApellido = $p->getSegundoApellido();
-        $dni = $p->getDni();
-        $telefono = $p->getTelefono();
-        $sexo = $p->getSexo();
-        $fechaDeNacimiento = $p->getFechaDeNacimiento();
-        $edad = $p->getEdad();
-        $direccion = $p->getDireccion();
-        $correoElectronico = $p->getCorreoElectronico();
-
-        // Enlazar parámetros
-        $stmt->bind_param("ssssisssiss",
+        $this->conectar();
+        $stmt = $this->con->prepare($sql);
+        
+        if ($stmt) {
+            $stmt->bind_param("ssssssssiss", 
             $primerNombre,
             $segundoNombre,
             $primerApellido,
-            $segundoApellido,
+            $SegundoApellido,
             $dni,
             $telefono,
             $sexo,
@@ -104,99 +113,121 @@ class DAOPersona {
             $edad,
             $direccion,
             $correoElectronico
-        );
+            );
 
-        // Ejecutar la consulta
-        if ($stmt->execute()) {
-            // Éxito
-            return "La persona se ha ingresado correctamente";
-        } else {
-            // Error al ejecutar la consulta
-            return "No se ha podido agregar a la base de datos: " . $stmt->error;
-        }
-    } else {
-        // Error en la preparación de la consulta
-        return "Hubo un error en la preparación de la consulta: " . $this->conn->error;
-    }
-}
+            $primerNombre = $p->getPrimerNombre();
+            $segundoNombre = $p->getSegundoNombre();
+            $primerApellido = $p->getPrimerApellido();
+            $SegundoApellido = $p->getSegundoApellido();
+            $dni = $p->getDni();
+            $telefono = $p->getTelefono();
+            $sexo = $p->getSexo();
+            $fechaDeNacimiento = $p->getFechaDeNacimiento();
+            $edad = $p->getEdad();
+            $direccion = $p->getDireccion();
+            $correoElectronico = $p->getCorreoElectronico();
 
-    public function verPersona($dni) {
-    $sql = "SELECT * FROM persona WHERE Dni=?";
-    $stmt = $this->conn->prepare($sql);
-
-    if ($stmt) {
-        $stmt->bind_param("s", $dni);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $personaInfo = $result->fetch_assoc();
+            if ($stmt->execute()) {
+                echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
+            } else {
+                echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
+            }
+            
             $stmt->close();
-            return $personaInfo;
-        } else {
-            $stmt->close();
-            return "La persona con DNI $dni no existe.";
         }
-    } else {
-        return "Hubo un error en la preparación de la consulta.";
-    }
+        
+        $this->desconectar();  
+    }             
 }
-
-    public function actualizarPersona($persona) {
-    $sql = "UPDATE persona SET Primer_Nombre=?, Segundo_Nombre=?, Primer_Apellido=?, Segundo_Apellido=?, Telefono=?, Sexo=?, Fecha_de_nacimiento=?, Edad=?, Direccion=?, Correo_Electronico=? WHERE Dni=?";
-    $stmt = $this->conn->prepare($sql);
-
-    if ($stmt) {
-        $primerNombre = $persona->getPrimerNombre();
-        $segundoNombre = $persona->getSegundoNombre();
-        $primerApellido = $persona->getPrimerApellido();
-        $segundoApellido = $persona->getSegundoApellido();
-        $telefono = $persona->getTelefono();
-        $sexo = $persona->getSexo();
-        $fechaDeNacimiento = $persona->getFechaDeNacimiento();
-        $edad = $persona->getEdad();
-        $direccion = $persona->getDireccion();
-        $correoElectronico = $persona->getCorreoElectronico();
-        $dni = $persona->getDni();
-
-        $stmt->bind_param("ssssisssiss",
-            $primerNombre,
-            $segundoNombre,
-            $primerApellido,
-            $segundoApellido,
-            $telefono,
-            $sexo,
-            $fechaDeNacimiento,
-            $edad,
-            $direccion,
-            $correoElectronico,
-            $dni
-        );
-
-        if ($stmt->execute()) {
-            return "Persona actualizada correctamente.";
-        } else {
-            return "Hubo un problema al actualizar la persona.";
+        
+        public function eliminar($objeto) {
+            $p   = new Persona();
+            $p   = $objeto;
+            if($this->existe($p)){                 
+                $sql = "delete from persona where dni = ".$p->getDni(); 
+                $this->conectar();
+                if($this->con->query($sql)){
+                    //mensaje de éxito con sweet alert                             
+                    echo"<script>swal({title:'Borrado exitoso',text:'Se ha eliminado con éxito a la base de datos.', type: 'success'});</script>";
+                }else{  
+                    //mensaje de error con sweet alert   
+                    echo"<script>swal({title:'Error',text:'No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
+                }
+                $this->desconectar();                  
+            }else{                          
+                //mensaje de error con sweet alert                   
+                echo"<script>swal({title:'Error',text:' No existe una persona con ese código.', type: 'error'});</script>";
+            }               
         }
-    } else {
-        return "Hubo un error en la preparación de la consulta.";
-    }
-}
-
-    public function eliminarPersona($dni) {
-    $sql = "DELETE FROM persona WHERE Dni=?";
-    $stmt = $this->conn->prepare($sql);
-
-    if ($stmt) {
-        $stmt->bind_param("s", $dni);
-
-        if ($stmt->execute()) {
-            return "Persona eliminada correctamente.";
-        } else {
-            return "Hubo un problema al eliminar la persona.";
+    
+        public function actualizar($objeto){
+        $p   = new Persona();
+            $p   = $objeto;
+            if($this->existe($p)){                 
+                $sql = "UPDATE persona SET primerNombre = '".$p->getPrimerNombre()."', segundoNombre = '".$p->getSegundoNombre()
+                        ."',primerApellido = '".$p->getPrimerApellido()."', segundoApellido = '".$p->getSegundoApellido()
+                        ."', telefono = '".$p->getTelefono()."', sexo = '".$p->getSexo()."', fechaDeNacimiento = '".$p->getFechaDeNacimiento()
+                        ."', edad = '".$p->getEdad()."', Direccion = '".$p->getDireccion()."', correoElectronico = '".$p->getCorreoElectronico()
+                        ."' WHERE dni = ".$p->getDni(); 
+                $this->conectar();
+                if($this->con->query($sql)){
+                    //mensaje de éxito con sweet alert                             
+                    echo"<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
+                }else{  
+                    //mensaje de error con sweet alert   
+                    echo"<script>swal({title:'Error',text:'No se ha podido actualizar la base de datos.', type: 'error'});</script>";
+                }
+                $this->desconectar();                  
+            }else{                          
+                //mensaje de error con sweet alert                   
+                echo"<script>swal({title:'Error',text:' No existe una persona con ese código.', type: 'error'});</script>";
+            }               
         }
-    } else {
-        return "Hubo un error en la preparación de la consulta.";
+        
+        public function filtrar($valor, $criterio) {
+    // Cambiamos la consulta para buscar solo por DNI
+    $sql = "SELECT * FROM persona WHERE dni = '$valor'";
+    
+    $this->conectar();
+    $res = $this->con->query($sql);
+
+    // Resto del código para generar la tabla, manteniendo los elementos deseados en el while
+    $tabla = "<table class='table table-dark'>"
+            . "<thead class='thead thead-light'>"
+            . "<tr><th>Primer Nombre</th><th>Segundo Nombre</th>"
+            . "<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
+            . "<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
+            . "<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
+            . "</tr></thead><tbody>";
+
+    while($tupla = mysqli_fetch_assoc($res)) {
+        // Mantenemos solo las columnas necesarias (puedes agregar o quitar según lo necesites)
+        $tabla .= "<tr>"
+                ."<td>".$tupla["primerNombre"]."</td>"
+                ."<td>".$tupla["segundoNombre"]."</td>"
+                ."<td>".$tupla["primerApellido"]."</td>"
+                ."<td>".$tupla["segundoApellido"]."</td>"
+                ."<td>".$tupla["dni"]."</td>"
+                ."<td>".$tupla["telefono"]."</td>"
+                ."<td>".$tupla["sexo"]."</td>"
+                ."<td>".$tupla["fechaDeNacimiento"]."</td>"
+                ."<td>".$tupla["edad"]."</td>"
+                ."<td>".$tupla["direccion"]."</td>"
+                ."<td>".$tupla["correoElectronico"]."</td>"
+                ."<td><a href=\"javascript:cargar('".$tupla["primerNombre"]
+                ."','".$tupla["segundoNombre"]."','".$tupla["primerApellido"]."','".$tupla["segundoApellido"]
+                ."','".$tupla["dni"]."','".$tupla["telefono"]."','".$tupla["sexo"]
+                ."','".$tupla["fechaDeNacimiento"]."','".$tupla["edad"]."','".$tupla["direccion"]
+                ."','".$tupla["correoElectronico"]
+                ."')\">Seleccionar</a></td>" 
+                ."</tr>";               
     }
+
+    $tabla .="</tbody></table>";
+    $res->close();
+    $this->desconectar();
+    return $tabla;
 }
-}
+
+    } 
+    
