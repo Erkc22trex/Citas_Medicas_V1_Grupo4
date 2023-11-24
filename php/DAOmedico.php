@@ -1,3 +1,4 @@
+<<<<<<< HEAD
  <?php
 include_once 'Persona.php'; // Incluye la clase Persona
 
@@ -23,3 +24,10 @@ class DAOmedico {
     // Resto de los métodos CRUD y métodos específicos de Medico si es necesario
     // ...
 }
+=======
+<?php
+
+class DAOmedico {
+
+}
+>>>>>>> cfa5ab42ee1a99bb59963d3ebf7e1752b79a121e

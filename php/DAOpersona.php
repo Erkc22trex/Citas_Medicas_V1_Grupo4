@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 //HOLA
     include 'informacion.php'; /* lo primero que debemos hacer es garantizar el acceso de ésta clase a la BD con la tabla Persona */
     include 'Persona.php';     //incluir también la clase que responde a la tabla para la que hacemos el DAO
@@ -11,6 +12,23 @@
         //Método para conectarse a la base de datos
         public function conectar() {
             $this->con  =   new mysqli(SERVIDOR, USUARIO, CLAVES, BD) or die ("Error al conectar");            
+=======
+include 'Persona.php';
+include 'informacion.php';
+
+class DAOPersona {
+    private $conn;
+
+    public function __construct() {
+        $this->conectar();
+    }
+
+    public function conectar() {
+        $this->conn = new mysqli("127.0.0.1","admin","1234", "crud_pacientes_mysql");
+
+        if ($this->conn->connect_error) {
+            die("Error de conexión: " . $this->conn->connect_error);
+>>>>>>> cfa5ab42ee1a99bb59963d3ebf7e1752b79a121e
         }
         
         //método para cerrar la conexión a la base de datos
