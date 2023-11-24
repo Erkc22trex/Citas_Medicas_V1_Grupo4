@@ -1,4 +1,5 @@
 <?php
+//HOLA
     include 'informacion.php'; /* lo primero que debemos hacer es garantizar el acceso de ésta clase a la BD con la tabla Persona */
     include 'Persona.php';     //incluir también la clase que responde a la tabla para la que hacemos el DAO
        

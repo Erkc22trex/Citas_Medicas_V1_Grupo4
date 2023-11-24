@@ -3,6 +3,7 @@
 
 class Persona  {
     //atributos
+    //HOLA
     private $idPersona;
     private $primerNombre;
     private $segundoNombre;
