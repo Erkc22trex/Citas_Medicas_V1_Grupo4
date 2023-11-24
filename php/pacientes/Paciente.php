@@ -1,5 +1,7 @@
 <?php
 
+include "../personas/Persona.php";
+
 class Paciente extends Persona {
     //atributos
     private $idPaciente;
