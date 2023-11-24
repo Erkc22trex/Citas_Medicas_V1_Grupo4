@@ -1,263 +1,199 @@
-<!DOCTYPE html>
-<html>
+<?php
+    include 'DAOpersona.php';
+    $P = new DAOPersona();
+    $per = new Persona();
+?>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-     
-    <meta charset="UTF-8">
-    <title>Administrar Personas</title>
-</head>
-<body>
-    <h2 style="text-align: center;">Ingresar Persona</h2>
-     <form id="formularioPersona" action="./ControladorPersona.php" method="POST" style="width: 80%; margin: 20px auto; display: flex; flex-wrap: wrap; justify-content: space-between;">
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="primerNombre" class="form-label">Primer Nombre:</label>
-        <input type="text" class="form-control" id="primerNombre" name="primerNombre" required><br><br>
-    </div>
-         </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="segundoNombre" class="form-label">Segundo Nombre:</label>
-        <input type="text" class="form-control" id="segundoNombre" name="segundoNombre"><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="primerApellido" class="form-label">Primer Apellido:</label>
-        <input type="text" class="form-control" id="primerApellido" name="primerApellido" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="segundoApellido" class="form-label">Segundo Apellido:</label>
-        <input type="text" class="form-control" id="segundoApellido" name="segundoApellido"><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="dni" class="form-label">DNI:</label>
-        <input type="text" class="form-control" id="dni" name="dni" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="telefono" class="form-label">Teléfono:</label>
-        <input type="text" class="form-control" id="telefono" name="telefono" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="sexo" class="form-label">Sexo:</label>
-        <input type="text" class="form-control" id="sexo" name="sexo" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="fechaDeNacimiento" class="form-label">Fecha de Nacimiento:</label>
-        <input type="date" class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento" placeholder="AAAA-MM-DD"><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="edad" class="form-label">Edad:</label>
-        <input type="number" class="form-control" id="edad" name="edad" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="direccion" class="form-label">Dirección:</label>
-        <input type="text" class="form-control" id="direccion" name="direccion" required><br><br>
-    </div>
-    </div>
-
-    <div style="width: 48%;">
-            <div class="mb-3">
-        <label for="correoElectronico" class="form-label">Correo Electrónico:</label>
-        <input type="email" class="form-control" id="correoElectronico" name="correoElectronico" required><br><br>
-    </div>
-    </div>
-
-    <div class="botones">
-        <input type="submit" class="btn btn-primary" name="accion"  id ="accion" value="Insertar Persona">
-       <input type="submit" class="btn btn-primary" name="accion2" id="accion2" value="Ver Persona">
-        <input type="submit" class="btn btn-primary" name="accion3" id="accion3" value="Actualizar Persona">
-        <input type="submit" class="btn btn-primary" name="accion4" value="Eliminar Persona">-->
-    </div> 
-</form>
-    <script>
-        $(document).ready(function() {
-    $('#accion').click(function(e) {
-        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
-
-        // Obtener los valores de los campos del formulario
-        var primerNombre = $('#primerNombre').val();
-        var segundoNombre = $('#segundoNombre').val();
-        var primerApellido = $('#primerApellido').val();
-        var segundoApellido = $('#segundoApellido').val();
-        var dni = $('#dni').val();
-        var telefono = $('#telefono').val();
-        var sexo = $('#sexo').val();
-        var fechaDeNacimiento = $('#fechaDeNacimiento').val();
-        var edad = $('#edad').val();
-        var direccion = $('#direccion').val();
-        var correoElectronico = $('#correoElectronico').val();
-        // Obtener el resto de los campos...
-
-        // Realizar solicitud AJAX al controlador PHP
-        $.ajax({
-            type: 'POST',
-            url: 'ControladorPersona.php',
-            data: {
-                accion: 'insertarPersona', // Indicador de acción para insertar persona
-                primerNombre: primerNombre,
-                segundoNombre: segundoNombre,
-                primerApellido: primerApellido,
-                segundoApellido: segundoApellido,
-                dni: dni,
-                telefono: telefono,
-                sexo: sexo,
-                fechaDeNacimiento: fechaDeNacimiento,
-                edad: edad,
-                direccion: direccion,
-                correoElectronico: correoElectronico,
-                
-                
-                // Resto de los campos...
-            },
-            success: function(response) {
-                // Mostrar un mensaje de éxito o manejar la respuesta
-                alert(response); // Puedes mostrar una alerta, por ejemplo
-            },
-            error: function(xhr, status, error) {
-                // Manejar errores si la solicitud falla
-                console.error(error);
-                alert("Hubo un error al ingresar la persona.");
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        <script src="import/jquery/jquery.js" type="text/javascript"></script>
+        <script>
+            function cargar(primerNombre,segundoNombre,primerApellido,segundoApellido,DNI,telefono,sexo,fechaDeNacimiento,edad,direccion,correoElectronico){
+                document.formulario1.primerNombre.value=primerNombre;
+                document.formulario1.segundoNombre.value=segundoNombre;
+                document.formulario1.primerApellido.value=primerApellido;
+                document.formulario1.segundoApellido.value=segundoApellido;
+                document.formulario1.dni.value=DNI;
+                document.formulario1.telefono.value=telefono;
+                document.formulario1.sexo.value=sexo;
+                document.formulario1.fechaDeNacimiento.value=fechaDeNacimiento;
+                document.formulario1.edad.value=edad;
+                document.formulario1.direccion.value=direccion;
+                document.formulario1.correoElectronico.value=correoElectronico;
+                document.getElementById("btnModificar").disabled = false;
+                document.getElementById("btnEliminar").disabled = false;     
+                document.formulario1.dni.readOnly = true;
             }
-        });
-    });
-});
-</script>
-  
-<!-- formulario para búsquedas -->
-              <form action="ControladorPersona.php" method="post" name="formulario2" id="formulario2" style="width: 200px; position: absolute; top: 10px; right: 10px;">
-    <div class="mb-1">
-        <label for="buscar">Buscar por DNI:</label>
-        <input type="text" class="form-control" id="buscar" name="buscar" placeholder="Ingrese DNI" >
-    </div>
-</form>
-<script>
-    $(document).ready(function() {
-    $('#accion2').click(function(e) {
-        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
-
-        var dni = $('#buscar').val(); // Obtener el DNI ingresado
-
-        // Realizar solicitud AJAX al controlador PHP
-        $.ajax({
-            type: 'POST',
-            url: 'ControladorPersona.php', // Ruta del controlador
-            data: { action: 'verPersona', dni: dni }, // Datos a enviar al servidor
-            success: function(response) {
-                // Verificar si la respuesta contiene datos de la persona
-                if (response !== "La persona con DNI " + dni + " no existe.") {
-                    // Llenar los campos del formularioPersona con los datos recibidos
-                    var persona = JSON.parse(response);
-
-                    $('#primerNombre').val(persona.Primer_Nombre);
-                    $('#segundoNombre').val(persona.Segundo_Nombre);
-                    $('#primerApellido').val(persona.Primer_Apellido);
-                    $('#segundoApellido').val(persona.Segundo_Apellido);
-                    $('#dni').val(persona.Dni);
-                    $('#telefono').val(persona.Telefono);
-                    $('#sexo').val(persona.Sexo);
-                    $('#fechaDeNacimiento').val(persona.Fecha_De_Nacimiento);
-                    $('#edad').val(persona.Edad);
-                    $('#direccion').val(persona.Direccion);
-                    $('#correoElectronico').val(persona.Correo_Electronico);
-                    // Resto de los campos...
-
-                    alert("Datos de la persona obtenidos correctamente.");
-                } else {
-                    alert(response); // Mostrar mensaje si la persona no existe
-                }
-            },
-            error: function(xhr, status, error) {
-                // Manejar errores si la solicitud falla
-                console.error(error);
-                alert("Hubo un error al buscar la persona.");
-            }
-        });
-    });
-});
-    </script>
-    
-    <!-- Actualizar Persona -->
-    <script>
-        $(document).ready(function() {
-    $('#accion3').click(function(e) {
-        e.preventDefault(); // Evitar el comportamiento por defecto del botón (enviar formulario)
-
-        // Obtener el DNI de la persona que se desea actualizar
-//        var dni = $('#dni').val();
-        // Obtener los valores actualizados de los campos del formulario
-        var primerNombre = $('#primerNombre').val();
-        var segundoNombre = $('#segundoNombre').val();
-        var primerApellido = $('#primerApellido').val();
-        var segundoApellido = $('#segundoApellido').val();
-        var dni = $('#dni').val();
-        var telefono = $('#telefono').val();
-        var sexo = $('#sexo').val();
-        var fechaDeNacimiento = $('#fechaDeNacimiento').val();
-        var edad = $('#edad').val();
-        var direccion = $('#direccion').val();
-        var correoElectronico = $('#correoElectronico').val();
-        // Obtener el resto de los campos...
-
-        // Realizar solicitud AJAX al controlador PHP
-        $.ajax({
-            type: 'POST',
-            url: 'ControladorPersona.php',
-            data: {
-                accion: 'Actualizar Persona', // Indicador de acción para actualizar persona
-                dni: dni, // DNI para identificar la persona
-                primerNombre: primerNombre,
-                segundoNombre: segundoNombre,
-                primerApellido: primerApellido,
-                segundoApellido: segundoApellido,
-                dni: dni,
-                telefono: telefono,
-                sexo: sexo,
-                fechaDeNacimiento: fechaDeNacimiento,
-                edad: edad,
-                direccion: direccion,
-                correoElectronico: correoElectronico,
-                // Resto de los campos actualizados...
-            },
-            success: function(response) {
-                // Mostrar un mensaje de éxito o manejar la respuesta
-                alert(response); // Puedes mostrar una alerta, por ejemplo
-            },
-            error: function(xhr, status, error) {
-                // Manejar errores si la solicitud falla
-                console.error(error);
-                alert("Hubo un error al actualizar la persona.");
-            }
-        });
-    });
-});
         </script>
-    <hr>
-</body>
+            
+    </head>
+    <body>
+        <section>
+             <h2 style="position: relative; margin: auto; width: 500px;">Formulario de personas</h2>
+
+            <form action="vistaPersona.php" method="post" name = "formulario1" id = "formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
+                <div class="mb-3">
+                    <label for="primerNombre">Primer Nombre</label>
+                    <input type="text" class="form-control" id="primerNombre" name="primerNombre" maxlength="70">
+                
+                    <label for="segundoNombre">Segundo Nombre</label>
+                    <input type="text" class="form-control" id="segundoNombre" name="segundoNombre" maxlength="70">
+                
+                    <label for="primerApellido">Primer Apellido</label>
+                    <input type="text" class="form-control" id="primerApellido" name="primerApellido" maxlength="70">
+                    
+                    <label for="segundoApellido">Segundo Apellido</label>
+                    <input type="text" class="form-control" id="segundoApellido" name="segundoApellido" maxlength="70">
+                    
+                    <label for="dni">DNI</label>
+                    <input type="text" class="form-control" id="dni" name="dni" maxlength="15">
+               
+                    <label for="telefono">Telefono</label>
+                    <input type="text" class="form-control" id="telefono" name="telefono" maxlength="15">
+                
+                    <label for="sexo">Sexo</label>
+                    <input type="text" class="form-control" id="sexo" name="sexo" maxlength="100">
+                    
+                    <label for="fechaDeNacimiento" class="form-label">Fecha de Nacimiento:</label>
+                    <input type="text" class="form-control" id="fechaDeNacimiento" name="fechaDeNacimiento" placeholder="AAAA-MM-DD">
+                    
+                    <label for="edad" class="form-label">Edad:</label>
+                    <input type="number" class="form-control" id="edad" name="edad" required>
+                    
+                    <label for="direccion" class="form-label">Dirección:</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                    
+                    <label for="correoElectronico" class="form-label">Correo Electrónico:</label>
+                    <input type="email" class="form-control" id="correoElectronico" name="correoElectronico" required>
+                  
+                </div>
+                <button type="submit" id = "btnAgregar" name = "btnAgregar" class="btn btn-primary">Agregar</button>
+                <button type="submit" id = "btnModificar" name = "btnModificar" class="btn btn-danger" disabled>modificar</button>
+                <button type="submit" id = "btnEliminar" name = "btnEliminar" class="btn btn-dark" disabled>Eliminar</button>     
+            </form>
+             <br>
+             <!-- formulario para búsquedas --> 
+              <form action="vistaPersona.php" method="post" name = "formulario2" id = "formulario2" onsubmit="" style="position: relative; margin: auto; width: 500px;">
+                <div class="mb-1">
+                    <label for="busqueda">Buscar: </label>
+                    <input type="text" class="form-control" id="buscar" name="buscar" >                
+                    <label for="criterio">Buscar por: </label>
+                    <table>
+                        <tr><td><select class="form-select" id="criterio" name="criterio" style="width: 300px;">
+<!--                              <option value="codigo">Primer Nombre</option>
+                              <option value="nombre">Segundo Nombre</option>
+                              <option value="codigo">Primer Apellido</option>
+                              <option value="nombre">Segundo Apellido</option>-->
+                              <option value="dni">DNI</option>
+<!--                              <option value="id">Telefono</option>
+                              <option value="id"></option>
+                              <option value="id">DNI</option>
+                              <option value="id">DNI</option>
+                              <option value="nombreUsuario">Nombre de usuario</option>-->
+                            </select>
+                          </td> <td>
+                              <button type="submit" id="btnBuscar" name="btnBuscar" class="btn btn-secondary" onclick="return validar2()">Buscar</button> </td><td></form>
+                            <button type="submit" id="btnQuitarF" name="btnQuitarF" class="btn btn-success" onclick="return recargar()">Quitar filtro</button>
+                          </td></tr></table> 
+               </div>
+            </form>
+             
+            <script> 
+                
+                function validar() {
+                    // Obtener el formulario
+                    const form = document.getElementById("formulario1");
+
+                    // Comprobar que todos los campos estén rellenos
+                    const inputs = form.querySelectorAll("input");
+                    for (const input of inputs) {
+                        if (input.value === "") {
+                            // Mostrar un sweet alert
+                            Swal.fire({title: "Error",text: "El campo " + input.dni + " es obligatorio",icon: "error", buttons: ["Aceptar"]});
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                 function validar2() {
+                    // Obtener el formulario
+                    const form = document.getElementById("formulario2");
+
+                    // Comprobar que todos los campos estén rellenos
+                    const inputs = form.querySelectorAll("input");
+                    for (const input of inputs) {
+                        if (input.value === "") {
+                            // Mostrar un sweet alert
+                            Swal.fire({title: "Error",text: "El campo " + input.dni + " es obligatorio",icon: "error",buttons: ["Aceptar"]});
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                
+                function recargar(){
+                    location.reload();
+                }
+            </script>       
+            <?php
+                $foot = "</section><section style='position: relative; margin: auto; width: 900px;'><br><br>";
+                if(isset($_REQUEST["btnAgregar"])){
+                    $per->setPrimerNombre($_REQUEST["primerNombre"]);
+                    $per->setSegundoNombre($_REQUEST["segundoNombre"]);
+                    $per->setPrimerApellido($_REQUEST["primerApellido"]);
+                    $per->setSegundoApellido($_REQUEST["segundoApellido"]);
+                    $per->setDni($_REQUEST["dni"]);
+                    $per->setTelefono($_REQUEST["telefono"]);
+                    $per->setSexo($_REQUEST["sexo"]);
+                    $per->setFechaDeNacimiento($_REQUEST["fechaDeNacimiento"]);
+                    $per->setEdad($_REQUEST["edad"]);
+                    $per->setDireccion($_REQUEST["direccion"]);
+                    $per->setCorreoElectronico($_REQUEST["correoElectronico"]);
+                    
+                    $P->insertar($per);
+                    
+//                    echo $foot.$P->getTabla()."</section>"; 
+                }elseif(isset($_REQUEST["btnModificar"])){
+                    $per->setPrimerNombre($_REQUEST["primerNombre"]);
+                    $per->setSegundoNombre($_REQUEST['segundoNombre']);
+                    $per->setPrimerApellido($_REQUEST['primerApellido']);
+                    $per->setSegundoApellido($_REQUEST['segundoApellido']);
+                    $per->setDni($_REQUEST['dni']);
+                    $per->setTelefono($_REQUEST['telefono']);
+                    $per->setSexo($_REQUEST['sexo']);
+                    $per->setFechaDeNacimiento($_REQUEST['fechaDeNacimiento']);
+                    $per->setEdad($_REQUEST['edad']);
+                    $per->setDireccion($_REQUEST['direccion']);
+                    $per->setCorreoElectronico($_REQUEST['correoElectronico']);
+                    $P->actualizar($per);
+//                    echo $foot.$P->getTabla()."</section>";    
+                    
+                }elseif(isset($_REQUEST["btnEliminar"])){
+                    $per->setPrimerNombre($_REQUEST["primerNombre"]);
+                    $per->setSegundoNombre($_REQUEST['segundoNombre']);
+                    $per->setPrimerApellido($_REQUEST['primerApellido']);
+                    $per->setSegundoApellido($_REQUEST['segundoApellido']);
+                    $per->setDni($_REQUEST['dni']);
+                    $per->setTelefono($_REQUEST['telefono']);
+                    $per->setSexo($_REQUEST['sexo']);
+                    $per->setFechaDeNacimiento($_REQUEST['fechaDeNacimiento']);
+                    $per->setEdad($_REQUEST['edad']);
+                    $per->setDireccion($_REQUEST['direccion']);
+                    $per->setCorreoElectronico($_REQUEST['correoElectronico']);                    
+                    $P->eliminar($per);
+//                    echo $foot.$P->getTabla()."</section>"; 
+                    
+                }elseif(isset($_REQUEST["btnBuscar"])){
+                    $v1 = $_REQUEST["buscar"];
+                    $v2 = $_REQUEST["criterio"];
+                    ?>
+                    </section><section style="position: relative; margin: auto; width: 1900px;">
+                     <br><br>
+                <?php
+                    echo $P->filtrar($v1,$v2);
+                }else{"</section>";  } ?>
+    </body>
 </html>

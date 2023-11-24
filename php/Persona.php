@@ -1,14 +1,13 @@
 <?php
 
 
-class Persona {
+class Persona  {
     //atributos
-    private $conn;
     private $idPersona;
     private $primerNombre;
     private $segundoNombre;
     private $primerApellido;
-    private $SegundoApellido;
+    private $segundoApellido;
     private $dni;
     private $telefono;
     private $sexo;
@@ -21,6 +20,21 @@ class Persona {
     public function __construct() {
         
     }
+//    public function __construct($idPersona, $primerNombre, $segundoNombre, $primerApellido, $segundoApellido, $dni, $telefono, $sexo, $fechaDeNacimiento, $Edad, $direccion, $correoElectronico) {
+//        $this->idPersona = $idPersona;
+//        $this->primerNombre = $primerNombre;
+//        $this->segundoNombre = $segundoNombre;
+//        $this->primerApellido = $primerApellido;
+//        $this->segundoApellido = $segundoApellido;
+//        $this->dni = $dni;
+//        $this->telefono = $telefono;
+//        $this->sexo = $sexo;
+//        $this->fechaDeNacimiento = $fechaDeNacimiento;
+//        $this->Edad = $Edad;
+//        $this->direccion = $direccion;
+//        $this->correoElectronico = $correoElectronico;
+//    }
+
     // Getters y setters 
     public function getIdPersona() {
         return $this->idPersona;
