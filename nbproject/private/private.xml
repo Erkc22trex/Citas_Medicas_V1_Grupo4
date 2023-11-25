@@ -3,13 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/vistaPacientes.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/DAOPacientes.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/DAOpersona.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/Persona.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/vistaPersona.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/Paciente.php</file>
-            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/informacion.php</file>
+            <file>file:/C:/xampp/htdocs/Citas_Medicas_V1_Grupo4/php/pacientes/DAOPacientes.php</file>
         </group>
     </open-files>
 </project-private>
