@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Description of DAOPacientes
- *
- * @author joelv
- */
 include '../personas/DAOpersona.php';
 
 class DAORecepcionista
@@ -38,8 +33,7 @@ class DAORecepcionista
                 <th scope='col'>Fecha nacimiento</th>
                 <th scope='col'>Correo</th>
                 <th scope='col'>Direccion</th>
-                <th scope='col'>Actualizar</th>
-                <th scope='col'>Borrar</th>
+                <th scope='col'>Seleccionar</th>
             </tr>
         </thead><tbody>";
 
@@ -72,23 +66,6 @@ class DAORecepcionista
                 . $tupla["fecha_nacimiento"] . "\",\""
                 . $tupla["direccion"] . "\",\""
                 . $tupla["correo"] . "\")'>Actualizar</a>
-                    </button>
-                </td>
-                <td>
-                    <button class='btn btn-success'>"
-                . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
-                . 'eliminar' . "\",\""
-                . $tupla["id_recepcionista"] . "\",\""
-                . $tupla["id_persona"] . "\",\""
-                . $tupla["dni"] . "\",\""
-                . $tupla["nombre"] . "\",\""
-                . $tupla["apellido"] . "\",\""
-                . $tupla["telefono"] . "\",\""
-                . $tupla["edad"] . "\",\""
-                . $tupla["sexo"] . "\",\""
-                . $tupla["fecha_nacimiento"] . "\",\""
-                . $tupla["direccion"] . "\",\""
-                . $tupla["correo"] . "\")'>Borrar</a>
                     </button>
                 </td>"
                 . "</tr>";

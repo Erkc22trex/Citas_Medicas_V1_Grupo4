@@ -14,6 +14,9 @@ $usr = new Usuario();
 </head>
 
 <body>
+    <div class="px-5 py-2">
+        <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary" onclick="return regresar()">Inicio</button>
+    </div>
     <section class="d-flex flex-column justify-content-center align-items-center">
         <h2 class="text-center">Usuarios</h2>
 
@@ -108,6 +111,10 @@ $usr = new Usuario();
 
         function recargar() {
             location.reload();
+        }
+
+        function regresar() {
+            window.location.href = "./../MenuPrincipal.php";
         }
     </script>
 </body>

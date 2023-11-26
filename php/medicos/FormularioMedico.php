@@ -44,9 +44,16 @@ $med = new Medico();
                 <label for="edad">Edad</label>
                 <input type="number" class="form-control" id="edad" name="edad" value="<?php echo isset($_GET['edad']) ? $_GET['edad'] : ''; ?>">
 
-                <label for="sexo">sexo</label>
-                <input type="text" class="form-control" id="sexo" name="sexo" value="<?php echo isset($_GET['sexo']) ? $_GET['sexo'] : ''; ?>">
+                <!-- <label for="sexo">sexo</label>
+                <input type="text" class="form-control" id="sexo" name="sexo" value="<?php echo isset($_GET['sexo']) ? $_GET['sexo'] : ''; ?>"> -->
 
+                <label for="sexo">sexo</label>
+                <select class="form-select" id="sexo" name="sexo" aria-label="Default select example">
+                    <option <?php echo (!isset($_GET['sexo']) || $_GET['sexo'] === 'Seleccionar sexo') ? 'selected' : ''; ?>>Seleccionar sexo</option>
+                    <option value="M" <?php echo (isset($_GET['sexo']) && $_GET['sexo'] === 'M') ? 'selected' : ''; ?>>Masculino</option>
+                    <option value="F" <?php echo (isset($_GET['sexo']) && $_GET['sexo'] === 'F') ? 'selected' : ''; ?>>Femenino</option>
+                </select>
+                
                 <label for="correo">Correo</label>
                 <input type="text" class="form-control" id="correo" name="correo" value="<?php echo isset($_GET['correo']) ? $_GET['correo'] : ''; ?>">
 

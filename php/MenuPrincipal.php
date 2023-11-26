@@ -14,7 +14,7 @@
 
 <body>
 
-  <main class="d-flex flex-column">
+  <main class="d-flex flex-column vh-100" style="background-color: #C9F2EE;">
 
     <h1 class="text-center py-4">Bienvenido al Sistema de Gestión Clínica</h1>
 

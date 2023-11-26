@@ -14,6 +14,9 @@ $recp = new Recepcionista();
 </head>
 
 <body>
+    <div class="px-5 py-2">
+        <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary" onclick="return regresar()">Inicio</button>
+    </div>
     <section class="d-flex flex-column justify-content-center align-items-center">
         <h2 class="text-center">Recepcionistas</h2>
 
@@ -106,6 +109,10 @@ $recp = new Recepcionista();
 
         function recargar() {
             location.reload();
+        }
+
+        function regresar() {
+            window.location.href = "./../MenuPrincipal.php";
         }
     </script>
 </body>
