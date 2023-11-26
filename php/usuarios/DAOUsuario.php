@@ -1,9 +1,13 @@
 <?php
 
-
+/**
+ * Description of DAOPacientes
+ *
+ * @author joelv
+ */
 include '../personas/DAOpersona.php';
 
-class DAOPacientes
+class DAOUsuario
 {
 
     private $DaoPer;
@@ -15,7 +19,7 @@ class DAOPacientes
 
     public function getTabla()
     {
-        $sql = "SELECT * FROM paciente pac INNER JOIN persona per ON pac.id_persona = per.id_persona;";
+        $sql = "SELECT * FROM usuario usr INNER JOIN persona per ON usr.id_persona = per.id_persona;";
 
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
 
@@ -34,8 +38,9 @@ class DAOPacientes
                 <th scope='col'>Fecha nacimiento</th>
                 <th scope='col'>Correo</th>
                 <th scope='col'>Direccion</th>
-                <th scope='col'>Actualizar</th>
-                <th scope='col'>Borrar</th>
+                <th scope='col'>Rol</th>
+                <th scope='col'>Estado</th>
+                <th scope='col'>Seleccionar</th>
             </tr>
         </thead><tbody>";
 
@@ -43,7 +48,7 @@ class DAOPacientes
 
             $tabla .=
                 "<tr>"
-                . "<td>" . $tupla["id_paciente"] . "</td>"
+                . "<td>" . $tupla["id_usuario"] . "</td>"
                 . "<td>" . $tupla["dni"] . "</td>"
                 . "<td>" . $tupla["nombre"] . "</td>"
                 . "<td>" . $tupla["apellido"] . "</td>"
@@ -53,11 +58,13 @@ class DAOPacientes
                 . "<td>" . $tupla["fecha_nacimiento"] . "</td>"
                 . "<td>" . $tupla["correo"] . "</td>"
                 . "<td>" . $tupla["direccion"] . "</td>"
+                . "<td>" . $tupla["rol"] . "</td>"
+                . "<td>" . $tupla["estado"] . "</td>"
                 . "<td>
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
                 . 'actualizar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
+                . $tupla["id_usuario"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
                 . $tupla["nombre"] . "\",\""
@@ -67,24 +74,9 @@ class DAOPacientes
                 . $tupla["sexo"] . "\",\""
                 . $tupla["fecha_nacimiento"] . "\",\""
                 . $tupla["direccion"] . "\",\""
-                . $tupla["correo"] . "\")'>Actualizar</a>
-                    </button>
-                </td>
-                <td>
-                    <button class='btn btn-success'>"
-                . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
-                . 'eliminar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
-                . $tupla["id_persona"] . "\",\""
-                . $tupla["dni"] . "\",\""
-                . $tupla["nombre"] . "\",\""
-                . $tupla["apellido"] . "\",\""
-                . $tupla["telefono"] . "\",\""
-                . $tupla["edad"] . "\",\""
-                . $tupla["sexo"] . "\",\""
-                . $tupla["fecha_nacimiento"] . "\",\""
-                . $tupla["direccion"] . "\",\""
-                . $tupla["correo"] . "\")'>Borrar</a>
+                . $tupla["correo"] . "\",\""
+                . $tupla["rol"] . "\",\""
+                . $tupla["estado"] . "\")'>Seleccionar</a>
                     </button>
                 </td>"
                 . "</tr>";
@@ -95,18 +87,20 @@ class DAOPacientes
         return $tabla;
     }
 
-    public function ingresarPaciente($objeto)
+    public function ingresarUsuario($objeto)
     {
         $id_persona = $this->DaoPer->insertar($objeto);
 
         if ($id_persona) {
-
             // Prepare and execute the second query
-            $sql_query_pac = "INSERT INTO paciente (id_persona) VALUES (?)";
+            $sql_query_pac = "INSERT INTO usuario (id_persona, rol, pass, estado) VALUES (?, ?, ?, ?)";
             $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
 
             if ($stmt_pac) {
-                $stmt_pac->bind_param("i", $id_persona);
+                $rol = $objeto->getRol();
+                $pass = $objeto->getPassword();
+                $estado = $objeto->getEstado();
+                $stmt_pac->bind_param("isss", $id_persona, $rol, $pass, $estado);
 
                 if ($stmt_pac->execute()) {
                     echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
@@ -125,30 +119,73 @@ class DAOPacientes
         }
     }
 
-    public function actualizarPaciente($objeto)
+    public function actualizarUsuario($objeto)
     {
 
+        $p = $objeto;
         $resp = $this->DaoPer->actualizar($objeto);
 
         if ($resp) {
-            //mensaje de éxito con sweet alert                             
-            echo "<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
+            $id_usuario = $objeto->getIdUsuario();
+            $rol = $objeto->getRol();
+            $pass = $objeto->getPassword();
+            $estado = $objeto->getEstado();
+
+            $sql = "UPDATE usuario SET rol = '" . $rol . "', estado = '" . $estado
+                . "' WHERE id_usuario = " . $id_usuario;
+
+            if ($this->DaoPer->getConexion()->hacerConsulta($sql)) {
+                //mensaje de éxito con sweet alert                             
+                echo "<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
+            }
         } else {
             //mensaje de error con sweet alert   
             echo "<script>swal({title:'Error',text:'No se ha podido actualizar la base de datos.', type: 'error'});</script>";
         }
     }
 
-    public function eliminarPaciente($objeto)
+    public function login($objeto)
     {
-        $p = $objeto;
+        $correo = $objeto->getCorreo();
+        $password = $objeto->getPassword();
 
-        $sql = "DELETE FROM paciente WHERE id_paciente = ?";
+        // Realiza la verificación en la base de datos (esquema básico)
+        $sql = "SELECT u.*, p.*
+        FROM usuario u
+        INNER JOIN persona p ON u.id_persona = p.id_persona
+        WHERE p.correo = ? AND u.pass = ?";
+
         $stmt = $this->DaoPer->getConexion()->prepare_query($sql);
 
         if ($stmt) {
-            $id_paciente = $p->getIdPaciente();
-            $stmt->bind_param("i", $id_paciente);
+            $stmt->bind_param("ss", $correo, $password);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                // Inicio de sesión exitoso
+                // Aquí podrías establecer variables de sesión si lo deseas
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            // Manejar error en la preparación de la consulta
+            echo "Error en la consulta: " . $this->DaoPer->getConexion()->error();
+            return false;
+        }
+    }
+
+    public function eliminarUsuario($objeto)
+    {
+        $p = $objeto;
+
+        $sql = "DELETE FROM usuario WHERE id_usuario = ?";
+        $stmt = $this->DaoPer->getConexion()->prepare_query($sql);
+
+        if ($stmt) {
+            $id_usuario = $p->getIdUsuario();
+            $stmt->bind_param("i", $id_usuario);
 
             if ($stmt->execute()) {
                 $dni = $p->getDni();
@@ -162,8 +199,7 @@ class DAOPacientes
         }
     }
 
-
-    public function filtrarPaciente($valor, $criterio)
+    public function filtrarUsuario($valor, $criterio)
     {
         // Cambiamos la consulta para buscar solo por DNI
         $sql = "SELECT * FROM persona WHERE dni = '$valor'";

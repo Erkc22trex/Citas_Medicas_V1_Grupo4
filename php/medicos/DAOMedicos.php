@@ -1,9 +1,8 @@
 <?php
 
-
 include '../personas/DAOpersona.php';
 
-class DAOPacientes
+class DAOMedicos
 {
 
     private $DaoPer;
@@ -15,11 +14,9 @@ class DAOPacientes
 
     public function getTabla()
     {
-        $sql = "SELECT * FROM paciente pac INNER JOIN persona per ON pac.id_persona = per.id_persona;";
+        $sql = "SELECT * FROM doctor doc INNER JOIN persona per ON doc.id_persona = per.id_persona;";
 
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
-
-        $accion = "actualizar";
 
         $tabla = "<table class='table table-dark'>
         <thead>
@@ -28,6 +25,7 @@ class DAOPacientes
                 <th scope='col'>DNI</th>
                 <th scope='col'>Nombre</th>
                 <th scope='col'>Apellido</th>
+                <th scope='col'>Especialidad</th>
                 <th scope='col'>Telefono</th>
                 <th scope='col'>Edad</th>
                 <th scope='col'>Sexo</th>
@@ -43,10 +41,11 @@ class DAOPacientes
 
             $tabla .=
                 "<tr>"
-                . "<td>" . $tupla["id_paciente"] . "</td>"
+                . "<td>" . $tupla["id_doctor"] . "</td>"
                 . "<td>" . $tupla["dni"] . "</td>"
                 . "<td>" . $tupla["nombre"] . "</td>"
                 . "<td>" . $tupla["apellido"] . "</td>"
+                . "<td>" . $tupla["especialidad"] . "</td>"
                 . "<td>" . $tupla["telefono"] . "</td>"
                 . "<td>" . $tupla["edad"] . "</td>"
                 . "<td>" . $tupla["sexo"] . "</td>"
@@ -57,11 +56,12 @@ class DAOPacientes
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
                 . 'actualizar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
+                . $tupla["id_doctor"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
                 . $tupla["nombre"] . "\",\""
                 . $tupla["apellido"] . "\",\""
+                . $tupla["especialidad"] . "\",\""
                 . $tupla["telefono"] . "\",\""
                 . $tupla["edad"] . "\",\""
                 . $tupla["sexo"] . "\",\""
@@ -74,11 +74,12 @@ class DAOPacientes
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
                 . 'eliminar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
+                . $tupla["id_doctor"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
                 . $tupla["nombre"] . "\",\""
                 . $tupla["apellido"] . "\",\""
+                . $tupla["especialidad"] . "\",\""
                 . $tupla["telefono"] . "\",\""
                 . $tupla["edad"] . "\",\""
                 . $tupla["sexo"] . "\",\""
@@ -95,18 +96,18 @@ class DAOPacientes
         return $tabla;
     }
 
-    public function ingresarPaciente($objeto)
+    public function ingresarMedico($objeto)
     {
         $id_persona = $this->DaoPer->insertar($objeto);
 
         if ($id_persona) {
 
-            // Prepare and execute the second query
-            $sql_query_pac = "INSERT INTO paciente (id_persona) VALUES (?)";
+            $sql_query_pac = "INSERT INTO doctor (id_persona, especialidad) VALUES (?, ?)";
             $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
 
             if ($stmt_pac) {
-                $stmt_pac->bind_param("i", $id_persona);
+                $especialidad = $objeto->getEspecialidad();
+                $stmt_pac->bind_param("is", $id_persona, $especialidad);
 
                 if ($stmt_pac->execute()) {
                     echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
@@ -125,9 +126,8 @@ class DAOPacientes
         }
     }
 
-    public function actualizarPaciente($objeto)
+    public function actualizarMedico($objeto)
     {
-
         $resp = $this->DaoPer->actualizar($objeto);
 
         if ($resp) {
@@ -139,16 +139,16 @@ class DAOPacientes
         }
     }
 
-    public function eliminarPaciente($objeto)
+    public function eliminarMedico($objeto)
     {
         $p = $objeto;
 
-        $sql = "DELETE FROM paciente WHERE id_paciente = ?";
+        $sql = "DELETE FROM doctor WHERE id_doctor = ?";
         $stmt = $this->DaoPer->getConexion()->prepare_query($sql);
 
         if ($stmt) {
-            $id_paciente = $p->getIdPaciente();
-            $stmt->bind_param("i", $id_paciente);
+            $id_medico = $p->getIdMedico();
+            $stmt->bind_param("i", $id_medico);
 
             if ($stmt->execute()) {
                 $dni = $p->getDni();
@@ -161,7 +161,6 @@ class DAOPacientes
             echo "<script>swal({title:'Error',text:' No existe el paciente con ese código.', type: 'error'});</script>";
         }
     }
-
 
     public function filtrarPaciente($valor, $criterio)
     {

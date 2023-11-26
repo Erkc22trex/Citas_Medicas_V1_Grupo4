@@ -1,8 +1,4 @@
 <?php
-// define ('SERVIDOR','localhost');
-// define('USUARIO','root');
-// define('CLAVES','');
-// define('BD','gestion_de_citas');
 
 class ConexionDB {
     private $host;
@@ -54,7 +50,11 @@ class ConexionDB {
     }
 
     public function error() {
-        $resultado = $this->conexion->error();
-        return $resultado;
+        return $this->conexion->error;
     }
+    
+    public function getConexion() {
+        return $this->conexion;
+    }
+    
 }

@@ -1,9 +1,13 @@
 <?php
 
-
+/**
+ * Description of DAOPacientes
+ *
+ * @author joelv
+ */
 include '../personas/DAOpersona.php';
 
-class DAOPacientes
+class DAORecepcionista
 {
 
     private $DaoPer;
@@ -15,7 +19,7 @@ class DAOPacientes
 
     public function getTabla()
     {
-        $sql = "SELECT * FROM paciente pac INNER JOIN persona per ON pac.id_persona = per.id_persona;";
+        $sql = "SELECT * FROM recepcionista recp INNER JOIN persona per ON recp.id_persona = per.id_persona;";
 
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
 
@@ -43,7 +47,7 @@ class DAOPacientes
 
             $tabla .=
                 "<tr>"
-                . "<td>" . $tupla["id_paciente"] . "</td>"
+                . "<td>" . $tupla["id_recepcionista"] . "</td>"
                 . "<td>" . $tupla["dni"] . "</td>"
                 . "<td>" . $tupla["nombre"] . "</td>"
                 . "<td>" . $tupla["apellido"] . "</td>"
@@ -57,7 +61,7 @@ class DAOPacientes
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
                 . 'actualizar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
+                . $tupla["id_recepcionista"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
                 . $tupla["nombre"] . "\",\""
@@ -74,7 +78,7 @@ class DAOPacientes
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
                 . 'eliminar' . "\",\""
-                . $tupla["id_paciente"] . "\",\""
+                . $tupla["id_recepcionista"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
                 . $tupla["nombre"] . "\",\""
@@ -95,14 +99,14 @@ class DAOPacientes
         return $tabla;
     }
 
-    public function ingresarPaciente($objeto)
+    public function ingresarRecepcionista($objeto)
     {
         $id_persona = $this->DaoPer->insertar($objeto);
 
         if ($id_persona) {
 
             // Prepare and execute the second query
-            $sql_query_pac = "INSERT INTO paciente (id_persona) VALUES (?)";
+            $sql_query_pac = "INSERT INTO recepcionista (id_persona) VALUES (?)";
             $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
 
             if ($stmt_pac) {
@@ -125,7 +129,7 @@ class DAOPacientes
         }
     }
 
-    public function actualizarPaciente($objeto)
+    public function actualizarRecepcionista($objeto)
     {
 
         $resp = $this->DaoPer->actualizar($objeto);
@@ -139,16 +143,16 @@ class DAOPacientes
         }
     }
 
-    public function eliminarPaciente($objeto)
+    public function eliminarRecepcionista($objeto)
     {
         $p = $objeto;
 
-        $sql = "DELETE FROM paciente WHERE id_paciente = ?";
+        $sql = "DELETE FROM recepcionista WHERE id_recepcionista = ?";
         $stmt = $this->DaoPer->getConexion()->prepare_query($sql);
 
         if ($stmt) {
-            $id_paciente = $p->getIdPaciente();
-            $stmt->bind_param("i", $id_paciente);
+            $id_recepcionista = $p->getIdRecepcionista();
+            $stmt->bind_param("i", $id_recepcionista);
 
             if ($stmt->execute()) {
                 $dni = $p->getDni();
@@ -161,7 +165,6 @@ class DAOPacientes
             echo "<script>swal({title:'Error',text:' No existe el paciente con ese código.', type: 'error'});</script>";
         }
     }
-
 
     public function filtrarPaciente($valor, $criterio)
     {

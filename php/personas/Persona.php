@@ -14,31 +14,7 @@ class Persona  {
     private $correo;
     
     // constructor
-    public function __construct() {
-        // $this-> $idPersona = 0;
-        // $this-> $nombre = "";
-        // $this-> $apellido = "";
-        // $this-> $telefono = "";
-        // $this-> $dni = "";
-        // $this-> $edad = 0;
-        // $this-> $sexo = "";
-        // $this-> $fechaNacimiento = "";
-        // $this-> $direccion = "";
-        // $this-> $correo = "";
-    }
-
-//    public function __construct($idPersona, $nombre, $apellido, $telefono, $dni, $edad, $sexo, $fechaNacimiento, $direccion, $correo) {
-//         $this-> $idPersona = $idPersona;
-//         $this-> $nombre = $nombre;
-//         $this-> $apellido = $apellido;
-//         $this-> $telefono = $telefono;
-//         $this-> $dni = $dni;
-//         $this-> $edad = $edad;
-//         $this-> $sexo = $sexo;
-//         $this-> $fechaNacimiento = $fechaNacimiento;
-//         $this-> $direccion = $direccion;
-//         $this-> $correo = $correo;
-//    }
+    public function __construct() {}
 
     // Getters 
     public function getIdPersona() {
