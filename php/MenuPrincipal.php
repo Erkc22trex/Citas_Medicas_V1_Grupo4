@@ -28,21 +28,21 @@
           <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaPacientes()">PACIENTES</button>
         </div>
         <div class="col">
-          <button class="btn btn-secondary btn-sm menu-button" onclick="return vistaRecepcionistas()">RECEPCIONISTAS</button>
+          <button class="btn btn-secondary btn-sm menu-button custon-btn" onclick="return vistaRecepcionistas()">RECEPCIONISTAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-success btn-sm menu-button" onclick="return vistaMedicos()">MEDICOS</button>
+          <button class="btn btn-success btn-sm menu-button custon-btn" onclick="return vistaMedicos()">MEDICOS</button>
         </div>
       </div>
       <div class="row py-4">
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button" onclick="return vistaCitas()">CITAS</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaCitas()">CITAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-success btn-sm menu-button" onclick="return vistaFacturas()">FACTURAS</button>
+          <button class="btn btn-success btn-sm menu-button custon-btn" onclick="return vistaFacturas()">FACTURAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button" onclick="return vistaUsuarios()">USUARIOS</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaUsuarios()">USUARIOS</button>
         </div>
       </div>
     </div>

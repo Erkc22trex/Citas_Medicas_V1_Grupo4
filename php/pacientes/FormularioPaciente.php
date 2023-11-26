@@ -11,12 +11,13 @@ $pac = new Paciente();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../../styles/styles.css">
 </head>
 
 <body>
     <section>
         <div class="px-5 py-2">
-            <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary" onclick="return regresar()">atras</button>
+            <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn" onclick="return regresar()">atras</button>
         </div>
         <h2 style="position: relative; margin: auto; width: 500px;">Formulario de paciente</h2>
 
@@ -62,9 +63,9 @@ $pac = new Paciente();
             </div>
 
             <div class="d-flex justify-content-between py-3">
-                <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary">Agregar</button>
-                <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger">Modificar</button>
-                <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark">Eliminar</button>
+                <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn">Agregar</button>
+                <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger custon-btn">Modificar</button>
+                <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark custon-btn">Eliminar</button>
             </div>
         </form>
 
