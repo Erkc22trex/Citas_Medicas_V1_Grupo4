@@ -1,6 +1,6 @@
 <?php
-include_once 'DAOCitas.php';
-include_once 'Cita.php';
+include 'DAOCitas.php';
+include 'Cita.php';
 $DaoCit = new DAOCitas();
 $cta = new Cita();
 

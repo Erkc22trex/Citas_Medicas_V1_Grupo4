@@ -67,8 +67,9 @@ $fac = new Factura();
     ?>
 
     <script>
-        function seleccionar(id_factura, id_doctor, id_paciente, monto_total, fecha_Emision, tipo_pago, estado) {
-            window.location.href = './FormularioFactura.php?id_factura=' + id_factura +
+        function seleccionar(id_factura, id_cita, id_doctor, id_paciente, monto_total, fecha_Emision, tipo_pago, estado) {
+            window.location.href = './FormularioFacturas.php?id_factura=' + id_factura +
+                '&id_cita=' + id_cita +
                 '&id_doctor=' + id_doctor +
                 '&id_paciente=' + id_paciente +
                 '&monto_total=' + monto_total +
@@ -78,7 +79,7 @@ $fac = new Factura();
         }
 
         function agregarCita() {
-            window.location.href = './FormularioFactura.php';
+            window.location.href = './FormularioFacturas.php';
         }
 
         function validar2() {

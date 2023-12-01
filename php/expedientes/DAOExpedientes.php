@@ -82,9 +82,6 @@ class DAOExpedientes
                 <th scope='col'>Codigo</th>
                 <th scope='col'>Doctor</th>
                 <th scope='col'>Paciente</th>
-                <th scope='col'>Diagnostico</th>
-                <th scope='col'>tratamiento</th>
-                <th scope='col'>observaciones</th>
                 <th scope='col'>Seleccionar</th>
             </tr>
         </thead><tbody>";
@@ -96,9 +93,6 @@ class DAOExpedientes
                 . "<td>" . $tupla["id_expediente"] . "</td>"
                 . "<td>" . $tupla["nombre_doctor"] . "</td>"
                 . "<td>" . $tupla["nombre_paciente"] . "</td>"
-                . "<td>" . $tupla["diagnostico"] . "</td>"
-                . "<td>" . $tupla["tratamiento"] . "</td>"
-                . "<td>" . $tupla["observaciones"] . "</td>"
                 . "<td>
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
