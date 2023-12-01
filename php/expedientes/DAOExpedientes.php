@@ -82,6 +82,7 @@ class DAOExpedientes
                 <th scope='col'>Codigo</th>
                 <th scope='col'>Doctor</th>
                 <th scope='col'>Paciente</th>
+                <th scope='col'>Diagnostico</th>
                 <th scope='col'>tratamiento</th>
                 <th scope='col'>observaciones</th>
                 <th scope='col'>Seleccionar</th>
@@ -95,6 +96,7 @@ class DAOExpedientes
                 . "<td>" . $tupla["id_expediente"] . "</td>"
                 . "<td>" . $tupla["nombre_doctor"] . "</td>"
                 . "<td>" . $tupla["nombre_paciente"] . "</td>"
+                . "<td>" . $tupla["diagnostico"] . "</td>"
                 . "<td>" . $tupla["tratamiento"] . "</td>"
                 . "<td>" . $tupla["observaciones"] . "</td>"
                 . "<td>
@@ -103,6 +105,7 @@ class DAOExpedientes
                 . $tupla["id_expediente"] . "\",\""
                 . $tupla["id_paciente"] . "\",\""
                 . $tupla["id_doctor"] . "\",\""
+                . $tupla["diagnostico"] . "\",\""
                 . $tupla["tratamiento"] . "\",\""
                 . $tupla["observaciones"] . "\")'>Seleccionar</a>
                     </button>
@@ -117,79 +120,89 @@ class DAOExpedientes
 
     public function ingresarExpediente($objeto)
     {
-        // $cit = $objeto;
+        $exp = $objeto;
 
-        // $sql = "INSERT INTO expedientes_pacientes (id_paciente, id_doctor, fecha, hora, estado) VALUES (?,?,?,?,?)";
+        $sql = "INSERT INTO expedientes_pacientes (id_paciente, id_doctor, diagnostico, tratamiento, observaciones) VALUES (?, ?, ?, ?, ?)";
 
-        // $stmt = $this->conn->prepare_query($sql);
+        $stmt = $this->conn->prepare_query($sql);
 
-        // if ($stmt) {
-        //     $id_paciente = $cit->getIdPaciente();
-        //     $id_doctor = $cit->getIdMedico();
-        //     $fecha = $cit->getFecha();
-        //     $hora = $cit->getHora();
-        //     $estado = $cit->getEstado();
+        if ($stmt) {
+            $id_paciente = $exp->getIdPaciente();
+            $id_doctor = $exp->getIdMedico();
+            $diagnostico = $exp->getDianostico();
+            $tratamiento = $exp->getTratamiento();
+            $observaciones = $exp->getObservaciones();
 
-        //     $stmt->bind_param("iisss", $id_paciente, $id_doctor, $fecha, $hora, $estado);
+            $stmt->bind_param("iisss", $id_paciente, $id_doctor, $diagnostico, $tratamiento, $observaciones);
 
-        //     if ($stmt->execute()) {
-        //         echo "<script>swal({title:'Ingreso exitoso',text:'Se ha ingresado con éxito a la base de datos.', type: 'success'});</script>";
-        //     } else {
-        //         echo "<script>swal({title:'Error',text:' No se ha podido ingresar a la base de datos.', type: 'error'});</script>";
-        //     }
-        // } else {
-        //     echo "<script>swal({title:'Error',text:' No se ha podido ingresar a la base de datos.', type: 'error'});</script>";
-        // }
+            if ($stmt->execute()) {
+                echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
+                $stmt->close();
+            } else {
+                echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
+                $stmt->close();
+            }
+        } else {
+            echo "<script>swal({title:'Error',text:' No se ha podido ingresar a la base de datos.', type: 'error'});</script>";
+            $stmt->close();
+        }
     }
 
     public function actualizarExpediente($objeto)
     {
-        // $cit = $objeto;
+        $exp = $objeto;
 
-        // $sql = "UPDATE Citas SET id_paciente = ?, id_doctor = ?, fecha = ?, hora = ?, estado = ? WHERE id_cita = ?";
+        $sql = "UPDATE expedientes_pacientes SET id_paciente = ?, id_doctor = ?, diagnostico = ?, tratamiento = ?, observaciones = ? WHERE id_expediente = ?";
+        $stmt = $this->conn->prepare_query($sql);
 
-        // $stmt = $this->conn->prepare_query($sql);
+        if ($stmt) {
+            $id_expediente = $exp->getIdExpediente();
+            $id_paciente = $exp->getIdPaciente();
+            $id_doctor = $exp->getIdMedico();
+            $diagnostico = $exp->getDianostico();
+            $tratamiento = $exp->getTratamiento();
+            $observaciones = $exp->getObservaciones();
 
-        // if ($stmt) {
-        //     $id_paciente = $cit->getIdPaciente();
-        //     $id_doctor = $cit->getIdMedico();
-        //     $fecha = $cit->getFecha();
-        //     $hora = $cit->getHora();
-        //     $estado = $cit->getEstado();
-        //     $id_cita = $cit->getIdCita();
+            $stmt->bind_param("iisssi", $id_paciente, $id_doctor, $diagnostico, $tratamiento, $observaciones, $id_expediente);
 
-        //     $stmt->bind_param("iisssi", $id_paciente, $id_doctor, $fecha, $hora, $estado, $id_cita);
+            if ($stmt->execute()) {
+                echo "<script>swal({title:'Actualización exitosa',text:'Se ha actualizado con éxito a la base de datos.', type: 'success'});</script>";
+                $stmt->close();
+            } else {
+                echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
+                $stmt->close();
+            }
+        } else {
+            echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
+            $stmt->close();
+        }
 
-        //     if ($stmt->execute()) {
-        //         echo "<script>swal({title:'Actualización exitosa',text:'Se ha actualizado con éxito a la base de datos.', type: 'success'});</script>";
-        //     } else {
-        //         echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
-        //     }
-        // } else {
-        //     echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
-        // }
     }
 
     public function eliminarExpediente($objeto)
     {
-        // $cit = $objeto;
+        $exp = $objeto;
 
-        // $sql = "DELETE FROM Citas WHERE id_cita = ?";
-        // $stmt = $this->conn->prepare_query($sql);
+        $sql = "DELETE FROM expedientes_pacientes WHERE id_expediente = ?";
 
-        // if ($stmt) {
-        //     $id_cita = $cit->getIdCita();
+        $stmt = $this->conn->prepare_query($sql);
 
-        //     $stmt->bind_param("i", $id_cita);
+        if ($stmt) {
+            $id_expediente = $exp->getIdExpediente();
 
-        //     if ($stmt->execute()) {
-        //         echo "<script>swal({title:'Eliminación exitosa',text:'Se ha eliminado con éxito a la base de datos.', type: 'success'});</script>";
-        //     } else {
-        //         echo "<script>swal({title:'Error',text:' No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
-        //     }
-        // } else {
-        //     echo "<script>swal({title:'Error',text:' No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
-        // }
+            $stmt->bind_param("i", $id_expediente);
+
+            if ($stmt->execute()) {
+                echo "<script>swal({title:'Eliminación exitosa',text:'Se ha eliminado con éxito a la base de datos.', type: 'success'});</script>";
+                $stmt->close();
+            } else {
+                echo "<script>swal({title:'Error',text:' No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
+                $stmt->close();
+            }
+        } else {
+            echo "<script>swal({title:'Error',text:' No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
+            $stmt->close();
+        }
     }
 
     public function filtrarExpediente($valor, $criterio)

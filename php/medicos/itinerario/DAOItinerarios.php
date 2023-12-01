@@ -23,7 +23,7 @@ class DAOItinerarios
 
         $res = $this->conn->hacerConsulta($sql);
 
-        $medicos = "<select class='form-select' id='id_medico' name='id_medico' aria-label='Default select example'>"
+        $medicos = "<select class='form-select' id='id_medico' name='id_medico' disabled aria-label='Default select example'>"
             . "<option value=''>Seleccione un medico</option>";
 
         while ($tupla = mysqli_fetch_assoc($res)) {

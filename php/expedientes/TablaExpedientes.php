@@ -20,7 +20,7 @@ $exp = new Expediente();
     <section class="d-flex flex-column justify-content-center align-items-center">
         <h2 class="text-center">Expedientes pacientes</h2>
         <!-- formulario para búsquedas -->
-        <form action="/Citas_Medicas_V1_Grupo4/php/usuarios/TablaUsuarios.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaExpedientes.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -67,10 +67,11 @@ $exp = new Expediente();
     ?>
 
     <script>
-        function seleccionar(id_expediente, id_paciente, id_doctor, tratamiento, observaciones) {
+        function seleccionar(id_expediente, id_paciente, id_doctor, diagnostico, tratamiento, observaciones) {
             window.location.href = './FormularioExpediente.php?id_expediente=' + id_expediente +
                 '&id_paciente=' + id_paciente +
                 '&id_doctor=' + id_doctor +
+                '&diagnostico=' + diagnostico +
                 '&tratamiento=' + tratamiento +
                 '&observaciones=' + observaciones;
         }
