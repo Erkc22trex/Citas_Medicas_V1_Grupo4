@@ -8,7 +8,6 @@ class Medico extends Persona
     private $idMedico;
     private $especialidad;
 
-    // CONSTRUCTOR
     public function __construct()
     {
     }

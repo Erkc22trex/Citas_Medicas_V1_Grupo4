@@ -20,7 +20,7 @@ $usr = new Usuario();
         </div>
         <h2 style="position: relative; margin: auto; width: 500px;">Formulario de usuarios</h2>
 
-        <form action="/Citas_Medicas_V1_Grupo4/php/usuarios/FormularioUsuario.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
+        <form action="./FormularioUsuario.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <div class="mb-3">
                 <!-- <input type="hidden" name="accion" id="accion" value="<?php echo isset($_GET['accion']) ? $_GET['accion'] : ''; ?>"> -->
                 <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo isset($_GET['id_usuario']) ? $_GET['id_usuario'] : ''; ?>">

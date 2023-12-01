@@ -21,7 +21,7 @@ $usr = new Usuario();
         <h2 class="text-center">Usuarios</h2>
 
         <!-- formulario para búsquedas -->
-        <form action="/Citas_Medicas_V1_Grupo4/php/usuarios/TablaUsuarios.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaUsuarios.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -68,7 +68,7 @@ $usr = new Usuario();
 
     <script>
         function seleccionar(accion, id_usuario, id_persona, dni, nombre, apellido, telefono, edad, sexo, fecha_nacimiento, direccion, correo, rol, estado) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/usuarios/FormularioUsuario.php?id_usuario=' + id_usuario +
+            window.location.href = './FormularioUsuario.php?id_usuario=' + id_usuario +
                 '&id_persona=' + id_persona +
                 '&dni=' + dni +
                 '&nombre=' + nombre +
@@ -85,7 +85,7 @@ $usr = new Usuario();
         }
 
         function agregarUsuario(accion) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/usuarios/FormularioUsuario.php?accion=' + accion;
+            window.location.href = './FormularioUsuario.php?accion=' + accion;
         }
 
         function validar2() {

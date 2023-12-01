@@ -19,10 +19,9 @@ $med = new Medico();
         <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn" onclick="return regresar()">Inicio</button>
     </div>
     <section class="d-flex flex-column justify-content-center align-items-center">
-        <h2 class="text-center">Medicos</h2>
-
+        <h2 class="text-center">Médicos</h2>
         <!-- formulario para búsquedas -->
-        <form action="/Citas_Medicas_V1_Grupo4/php/medicos/TablaMedicos.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaMedicos.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -68,8 +67,8 @@ $med = new Medico();
     ?>
 
     <script>
-        function seleccionar(accion, id_medico, id_persona, dni, nombre, apellido, especialidad, telefono, edad, sexo, fecha_nacimiento, direccion, correo) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/medicos/formularioMedico.php?id_medico=' + id_medico +
+        function seleccionar(id_medico, id_persona, dni, nombre, apellido, especialidad, telefono, edad, sexo, fecha_nacimiento, direccion, correo) {
+            window.location.href = './formularioMedico.php?id_medico=' + id_medico +
                 '&id_persona=' + id_persona +
                 '&dni=' + dni +
                 '&nombre=' + nombre +
@@ -80,12 +79,15 @@ $med = new Medico();
                 '&sexo=' + sexo +
                 '&fecha_nacimiento=' + fecha_nacimiento +
                 '&direccion=' + direccion +
-                '&correo=' + correo +
-                '&accion=' + accion;
+                '&correo=' + correo;
+        }
+
+        function seleccionarItinerario(id_medico) {
+            window.location.href = './itinerario/TablaItinerarios.php?id_medico=' + id_medico;
         }
 
         function agregar(accion) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/medicos/formularioMedico.php?accion=' + accion;
+            window.location.href = './formularioMedico.php?accion=' + accion;
         }
 
         function validar2() {

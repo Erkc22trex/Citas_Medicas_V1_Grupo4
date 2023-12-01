@@ -11,11 +11,12 @@ class Recepcionista extends Persona {
         
     }
     
-    // Getters y setters 
+    // Getters 
     public function getIdRecepcionista() {
         return $this->idRecepcionista;
     }
 
+    // Setters
     public function setIdRecepcionista($idRecepcionista){
         $this->idRecepcionista = $idRecepcionista;
     }

@@ -22,7 +22,7 @@ $recp = new Recepcionista();
         <h2 class="text-center">Recepcionistas</h2>
 
         <!-- formulario para búsquedas -->
-        <form action="/Citas_Medicas_V1_Grupo4/php/recepcionista/TablaRecepcionistas.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaRecepcionistas.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -69,7 +69,7 @@ $recp = new Recepcionista();
 
     <script>
         function seleccionar(accion, id_recepcionista, id_persona, dni, nombre, apellido, telefono, edad, sexo, fecha_nacimiento, direccion, correo) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/recepcionistas/formularioRecepcionista.php?id_recepcionista=' + id_recepcionista +
+            window.location.href = './formularioRecepcionista.php?id_recepcionista=' + id_recepcionista +
                 '&id_persona=' + id_persona +
                 '&dni=' + dni +
                 '&nombre=' + nombre +
@@ -84,7 +84,7 @@ $recp = new Recepcionista();
         }
 
         function agregarRecepcionista(accion) {
-            window.location.href = 'http://localhost/Citas_Medicas_V1_Grupo4/php/recepcionistas/formularioRecepcionista.php?accion=' + accion;
+            window.location.href = './formularioRecepcionista.php?accion=' + accion;
         }
 
         function validar2() {

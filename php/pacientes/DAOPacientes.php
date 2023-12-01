@@ -1,6 +1,5 @@
 <?php
 
-
 include '../personas/DAOpersona.php';
 
 class DAOPacientes
@@ -18,8 +17,6 @@ class DAOPacientes
         $sql = "SELECT * FROM paciente pac INNER JOIN persona per ON pac.id_persona = per.id_persona;";
 
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
-
-        $accion = "actualizar";
 
         $tabla = "<table class='table table-dark'>
         <thead>
@@ -93,8 +90,6 @@ class DAOPacientes
                 if ($stmt_pac->execute()) {
                     echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
                     $stmt_pac->close();
-                    //header("Location: TablaPacientes.php");
-                    //exit();
                 } else {
                     echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
                     $stmt_pac->close();

@@ -45,14 +45,24 @@
           <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaUsuarios()">USUARIOS</button>
         </div>
       </div>
+      <div class="row py-4">
+        <div class="col">
+          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaExpedientes()">Expedientes</button>
+        </div>
+        
+      </div>
     </div>
   </main>
 
 
   <!-- Scripts -->
   <script>
+    function vistaExpedientes() {
+      window.location.href = "expedientes/TablaExpedientes.php";
+    }
+
     function vistaPacientes() {
-      window.location.href = 'pacientes/TablaPacientes.php';
+      window.location.href = "pacientes/TablaPacientes.php";
     }
 
     function vistaRecepcionistas() {
@@ -64,7 +74,7 @@
     }
 
     function vistaCitas() {
-      window.location.href = 'citas/TablaCitas.php';
+      window.location.href = "citas/TablaCitas.php";
     }
 
     function vistaFacturas() {

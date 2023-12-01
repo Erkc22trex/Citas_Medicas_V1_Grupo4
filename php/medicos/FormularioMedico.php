@@ -21,7 +21,7 @@ $med = new Medico();
         </div>
         <h2 style="position: relative; margin: auto; width: 500px;">Formulario de Medico</h2>
 
-        <form action="/Citas_Medicas_V1_Grupo4/php/medicos/FormularioMedico.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
+        <form action="./FormularioMedico.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <div class="mb-3">
                 <!-- <input type="hidden" name="accion" id="accion" value="<?php echo isset($_GET['accion']) ? $_GET['accion'] : ''; ?>"> -->
                 <input type="hidden" name="id_medico" id="id_medico" value="<?php echo isset($_GET['id_medico']) ? $_GET['id_medico'] : ''; ?>">
@@ -44,9 +44,6 @@ $med = new Medico();
 
                 <label for="edad">Edad</label>
                 <input type="number" class="form-control" id="edad" name="edad" value="<?php echo isset($_GET['edad']) ? $_GET['edad'] : ''; ?>">
-
-                <!-- <label for="sexo">sexo</label>
-                <input type="text" class="form-control" id="sexo" name="sexo" value="<?php echo isset($_GET['sexo']) ? $_GET['sexo'] : ''; ?>"> -->
 
                 <label for="sexo">sexo</label>
                 <select class="form-select" id="sexo" name="sexo" aria-label="Default select example">

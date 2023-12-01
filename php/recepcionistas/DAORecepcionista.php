@@ -92,8 +92,6 @@ class DAORecepcionista
                 if ($stmt_pac->execute()) {
                     echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
                     $stmt_pac->close();
-                    //header("Location: TablaPacientes.php");
-                    //exit();
                 } else {
                     echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
                     $stmt_pac->close();

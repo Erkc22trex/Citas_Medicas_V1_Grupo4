@@ -163,14 +163,11 @@ class DAOUsuario
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                // Inicio de sesión exitoso
-                // Aquí podrías establecer variables de sesión si lo deseas
                 return true;
             } else {
                 return false;
             }
         } else {
-            // Manejar error en la preparación de la consulta
             echo "Error en la consulta: " . $this->DaoPer->getConexion()->error();
             return false;
         }

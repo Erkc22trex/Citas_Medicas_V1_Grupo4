@@ -32,7 +32,8 @@ class DAOMedicos
                 <th scope='col'>Fecha nacimiento</th>
                 <th scope='col'>Correo</th>
                 <th scope='col'>Direccion</th>
-                <th scope='col'>Seleccionar</th>
+                <th scope='col'>Seleccionar medico</th>
+                <th scope='col'>Seleccionar Itinerario</th>
             </tr>
         </thead><tbody>";
 
@@ -54,7 +55,6 @@ class DAOMedicos
                 . "<td>
                     <button class='btn btn-success'>"
                 . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
-                . 'actualizar' . "\",\""
                 . $tupla["id_doctor"] . "\",\""
                 . $tupla["id_persona"] . "\",\""
                 . $tupla["dni"] . "\",\""
@@ -67,6 +67,12 @@ class DAOMedicos
                 . $tupla["fecha_nacimiento"] . "\",\""
                 . $tupla["direccion"] . "\",\""
                 . $tupla["correo"] . "\")'>Seleccionar</a>
+                    </button>
+                </td>"
+                . "<td>
+                    <button class='btn btn-success'>"
+                . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionarItinerario(\""
+                . $tupla["id_doctor"] . "\")'>Seleccionar</a>
                     </button>
                 </td>"
                 . "</tr>";
@@ -93,8 +99,6 @@ class DAOMedicos
                 if ($stmt_pac->execute()) {
                     echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
                     $stmt_pac->close();
-                    //header("Location: TablaPacientes.php");
-                    //exit();
                 } else {
                     echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
                     $stmt_pac->close();
