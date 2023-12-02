@@ -139,8 +139,6 @@ class DAOUsuario
 
     public function ingresarUsuario($objeto)
     {
-
-        // Prepare and execute the second query
         $sql_query_pac = "INSERT INTO usuario (id_persona, rol, pass, estado) VALUES (?, ?, ?, ?)";
         $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
 
@@ -149,9 +147,6 @@ class DAOUsuario
             $pass = $objeto->getPassword();
             $estado = $objeto->getEstado();
             $id_persona = $objeto->getIdPersona();
-
-            // imprime en consola los valores que se van a insertar
-            echo "<script>console.log('id_persona: " . $id_persona . "');</script>";
 
             $stmt_pac->bind_param("isss", $id_persona, $rol, $pass, $estado);
 
@@ -177,7 +172,7 @@ class DAOUsuario
         $sql = "UPDATE usuario SET rol = '" . $rol . "', estado = '" . $estado
             . "' WHERE id_usuario = " . $id_usuario;
 
-        if ($this->DaoPer->getConexion()->hacerConsulta($sql)) {  
+        if ($this->DaoPer->getConexion()->hacerConsulta($sql)) {
             echo "<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
         } else {
             echo "<script>swal({title:'Error',text:'No se ha podido actualizar los datos.', type: 'error'});</script>";
@@ -203,7 +198,16 @@ class DAOUsuario
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
-                return true;
+                $row = $result->fetch_assoc();
+
+                // Crear un array con los datos que deseas enviar al cliente
+                $response = array(
+                    'correo' => $row['correo'],
+                    'rol' => $row['rol'],
+                    'id_persona' => $row['id_persona']
+                );
+
+                return $response;
             } else {
                 return false;
             }

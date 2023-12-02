@@ -42,10 +42,28 @@ $usr = new Usuario();
     if (isset($_REQUEST["btnLogin"])) {
         $usr->setCorreo($_REQUEST["correo"]);
         $usr->setPassword($_REQUEST["password"]);
-        // $DaoUsr->login($usr);
-        if ($DaoUsr->login($usr)) {
-            // Inicio de sesión exitoso
-            header("Location: ../MenuPrincipal.php");
+
+        $loginResult = $DaoUsr->login($usr);
+
+        if ($loginResult) {
+
+            $response = array(
+                'correo' => $loginResult['correo'],
+                'rol' => $loginResult['rol'],
+                'id_persona' => $loginResult['id_persona']
+            );
+    
+            // Convertir el array a formato JSON
+            $jsonResponse = json_encode($response);
+    
+            // Imprimir el JSON como parte de la respuesta
+            echo "<script>
+                    var jsonData = JSON.parse('" . $jsonResponse . "');
+                    localStorage.setItem('correo', jsonData.correo);
+                    localStorage.setItem('rol', jsonData.rol);
+                    localStorage.setItem('id_persona', jsonData.id_persona);
+                    window.location.href = '../MenuPrincipal.php';
+                </script>";
             exit();
         } else {
             // Inicio de sesión fallido, puedes manejar esto de acuerdo a tus necesidades

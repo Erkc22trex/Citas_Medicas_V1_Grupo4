@@ -20,7 +20,7 @@ $fac = new Factura();
     <section class="d-flex flex-column justify-content-center align-items-center">
         <h2 class="text-center">Facturas</h2>
         <!-- formulario para búsquedas -->
-        <form action="./FormularioFacturas.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaFacturas.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -39,9 +39,11 @@ $fac = new Factura();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="facturas.id_factura">Código</option>
+                            <option value="doc_persona.nombre">Nombre doctor</option>
+                            <option value="doc_persona.apellido">Apellido doctor</option>
+                            <option value="pac_persona.nombre">Nombre paciente</option>
+                            <option value="pac_persona.apellido">Apellido paciente</option>
                         </select>
                     </div>
                 </div>
@@ -60,7 +62,7 @@ $fac = new Factura();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoFac->filtrarFactura($v1, $v2);
+        echo $foot . $DaoFac->filtrarFactura($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoFac->getTabla() . "</section>";
     }

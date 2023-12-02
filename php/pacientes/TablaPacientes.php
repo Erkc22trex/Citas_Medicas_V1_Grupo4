@@ -6,6 +6,7 @@ $pac = new Paciente();
 ?>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -41,9 +42,9 @@ $pac = new Paciente();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="pac.id_paciente">Código paciente</option>
+                            <option value="per.nombre">Nombre</option>
+                            <option value="per.dni">Identidad</option>
                         </select>
                     </div>
                 </div>
@@ -61,7 +62,7 @@ $pac = new Paciente();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoPac->filtrarPaciente($v1, $v2);
+        echo $foot . $DaoPac->filtrarPaciente($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoPac->getTabla() . "</section>";
     }

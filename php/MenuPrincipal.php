@@ -16,40 +16,47 @@
 
   <main class="d-flex flex-column vh-100" style="background-color: #C9F2EE;">
 
-    <h1 class="text-center py-4">Bienvenido al Sistema de Gestión Clínica</h1>
+    <div class="custon-bg mb-2">
+      <h1 class="text-center text-white py-4">Bienvenido al Sistema de Gestión Clínica</h1>
+    </div>
 
     <div class="d-flex justify-content-center align-items-center">
       <img src="../styles/logo.jpeg" class="" alt="logo citas" style="width: 250px; height: 250px;">
     </div>
 
     <div class="container text-center px-5">
-      <div class="row py-2">
+      <div class="row py-4">
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaPacientes()">PACIENTES</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaPacientes()">PACIENTES</button>
         </div>
         <div class="col">
-          <button class="btn btn-secondary btn-sm menu-button custon-btn" onclick="return vistaRecepcionistas()">RECEPCIONISTAS</button>
+          <button class="btn btn-secondary btn-sm menu-button custon-btn w-100" onclick="return vistaRecepcionistas()">RECEPCIONISTAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-success btn-sm menu-button custon-btn" onclick="return vistaMedicos()">MEDICOS</button>
+          <button class="btn btn-success btn-sm menu-button custon-btn w-100" onclick="return vistaMedicos()">MEDICOS</button>
         </div>
       </div>
       <div class="row py-4">
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaCitas()">CITAS</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaCitas()">CITAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-success btn-sm menu-button custon-btn" onclick="return vistaFacturas()">FACTURAS</button>
+          <button class="btn btn-success btn-sm menu-button custon-btn w-100" onclick="return vistaFacturas()">FACTURAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaUsuarios()">USUARIOS</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaUsuarios()">USUARIOS</button>
         </div>
       </div>
       <div class="row py-4">
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn" onclick="return vistaExpedientes()">Expedientes</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">EXPEDIENTES</button>
         </div>
-        
+        <div class="col">
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">ESTADISTICAS</button>
+        </div>
+        <div class="col">
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">Cerrar sesión</button>
+        </div>
       </div>
     </div>
   </main>

@@ -40,9 +40,9 @@ $med = new Medico();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="doc.id_doctor">Código</option>
+                            <option value="per.nombre">Nombre</option>
+                            <option value="per.dni">Identidad</option>
                         </select>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ $med = new Medico();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoMed->filtrarPaciente($v1, $v2);
+        echo $foot . $DaoMed->filtrarPaciente($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoMed->getTabla() . "</section>";
     }

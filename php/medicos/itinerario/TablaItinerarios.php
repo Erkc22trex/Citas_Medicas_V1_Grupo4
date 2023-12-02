@@ -18,39 +18,7 @@ $itn = new Itinerario();
     <div class="px-5 py-2">
         <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn" onclick="return regresar()">Atrás</button>
     </div>
-    <section class="d-flex flex-column justify-content-center align-items-center">
-        <h2 class="text-center">Itinerario</h2>
-        <!-- formulario para búsquedas -->
-        <form action="./TablaItinerarios.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
-
-            <div class="d-flex justify-content-center align-items-center gap-4">
-
-                <div class="row g-3 align-items-center py-3">
-                    <div class="col-auto">
-                        <label for="busqueda" class="col-form-label">Buscar:</label>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" id="buscar" name="buscar" class="form-control">
-                    </div>
-                </div>
-
-                <div class="row g-3 align-items-center py-3">
-                    <div class="col-auto">
-                        <label for="criterio" class="col-form-label">Buscar por:</label>
-                    </div>
-                    <div class="col-auto">
-                        <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" id="btnBuscar" name="btnBuscar" class="btn btn-secondary" onclick="return validar2()">Buscar</button>
-                <button type="submit" id="btnQuitarF" name="btnQuitarF" class="btn btn-success" onclick="return recargar()">Quitar filtro</button>
-            </div>
-        </form>
-    </section>
+    
     <div class="d-flex justify-content-end align-items-center me-5 pe-2 mb-3">
         <button type="submit" id="btnAgregarPac" name="btnAgregarPac" class="btn btn-success custon-btn" onclick="return agregar()">Agregar Itinerario</button>
     </div>

@@ -266,45 +266,66 @@ class DAOFacturas
 
     public function filtrarFactura($valor, $criterio)
     {
-        // Cambiamos la consulta para buscar solo por DNI
-        // $sql = "SELECT * FROM persona WHERE dni = '$valor'";
+        $sql = "SELECT
+        doctor.id_doctor,
+        paciente.id_paciente,
+        CONCAT(doc_persona.nombre, ' ', doc_persona.apellido) AS nombre_doctor,
+        CONCAT(pac_persona.nombre, ' ', pac_persona.apellido) AS nombre_paciente,
+        facturas.*
+        FROM
+            facturas
+            JOIN citas ON facturas.id_cita = citas.id_cita
+            JOIN doctor ON citas.id_doctor = doctor.id_doctor
+            JOIN persona doc_persona ON doctor.id_persona = doc_persona.id_persona
+            JOIN paciente ON citas.id_paciente = paciente.id_paciente
+            JOIN persona pac_persona ON paciente.id_persona = pac_persona.id_persona
+            where $criterio like '%$valor%';";
 
-        // $res = $this->conn->getConexion()->hacerConsulta($sql);
+        $res = $this->conn->query($sql);
 
-        // // Resto del código para generar la tabla, manteniendo los elementos deseados en el while
-        // $tabla = "<table class='table table-dark'>"
-        //     . "<thead class='thead thead-light'>"
-        //     . "<tr><th>Primer Nombre</th><th>Segundo Nombre</th>"
-        //     . "<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
-        //     . "<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
-        //     . "<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
-        //     . "</tr></thead><tbody>";
+        $tabla = "<table class='table table-dark'>
+        <thead>
+            <tr>
+                <th scope='col'>Codigo</th>
+                <th scope='col'>Paciente</th>
+                <th scope='col'>Medico</th>
+                <th scope='col'>Monto total</th>
+                <th scope='col'>Fecha emisión</th>
+                <th scope='col'>tipo pago</th>
+                <th scope='col'>Estado</th>
+                <th scope='col'>Seleccionar</th>
+            </tr>
+        </thead><tbody>";
 
-        // while ($tupla = mysqli_fetch_assoc($res)) {
-        //     // Mantenemos solo las columnas necesarias (puedes agregar o quitar según lo necesites)
-        //     $tabla .= "<tr>"
-        //         . "<td>" . $tupla["primerNombre"] . "</td>"
-        //         . "<td>" . $tupla["segundoNombre"] . "</td>"
-        //         . "<td>" . $tupla["primerApellido"] . "</td>"
-        //         . "<td>" . $tupla["segundoApellido"] . "</td>"
-        //         . "<td>" . $tupla["dni"] . "</td>"
-        //         . "<td>" . $tupla["telefono"] . "</td>"
-        //         . "<td>" . $tupla["sexo"] . "</td>"
-        //         . "<td>" . $tupla["fechaDeNacimiento"] . "</td>"
-        //         . "<td>" . $tupla["edad"] . "</td>"
-        //         . "<td>" . $tupla["direccion"] . "</td>"
-        //         . "<td>" . $tupla["correoElectronico"] . "</td>"
-        //         . "<td><a href=\"javascript:cargar('" . $tupla["primerNombre"]
-        //         . "','" . $tupla["segundoNombre"] . "','" . $tupla["primerApellido"] . "','" . $tupla["segundoApellido"]
-        //         . "','" . $tupla["dni"] . "','" . $tupla["telefono"] . "','" . $tupla["sexo"]
-        //         . "','" . $tupla["fechaDeNacimiento"] . "','" . $tupla["edad"] . "','" . $tupla["direccion"]
-        //         . "','" . $tupla["correoElectronico"]
-        //         . "')\">Seleccionar</a></td>"
-        //         . "</tr>";
-        // }
+        while ($tupla = mysqli_fetch_assoc($res)) {
 
-        // $tabla .= "</tbody></table>";
-        // $res->close();
-        // return $tabla;
+            $tabla .=
+                "<tr>"
+                . "<td>" . $tupla["id_factura"] . "</td>"
+                . "<td>" . $tupla["nombre_paciente"] . "</td>"
+                . "<td>" . $tupla["nombre_doctor"] . "</td>"
+                . "<td>" . $tupla["monto_total"] . "</td>"
+                . "<td>" . $tupla["fecha_Emision"] . "</td>"
+                . "<td>" . $tupla["tipo_pago"] . "</td>"
+                . "<td>" . $tupla["estado"] . "</td>"
+                . "<td>
+                    <button class='btn btn-success'>"
+                . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
+                . $tupla["id_factura"] . "\",\""
+                . $tupla["id_cita"] . "\",\""
+                . $tupla["id_doctor"] . "\",\""
+                . $tupla["id_paciente"] . "\",\""
+                . $tupla["monto_total"] . "\",\""
+                . $tupla["fecha_Emision"] . "\",\""
+                . $tupla["tipo_pago"] . "\",\""
+                . $tupla["estado"] . "\")'>Seleccionar</a>
+                    </button>
+                </td>"
+                . "</tr>";
+        }
+
+        $tabla .= "</tbody></table>";
+        $res->close();
+        return $tabla;
     }
 }

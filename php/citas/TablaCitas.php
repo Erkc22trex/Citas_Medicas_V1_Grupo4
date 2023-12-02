@@ -20,7 +20,7 @@ $cit = new Cita();
     <section class="d-flex flex-column justify-content-center align-items-center">
         <h2 class="text-center">Citas</h2>
         <!-- formulario para búsquedas -->
-        <form action="/Citas_Medicas_V1_Grupo4/php/usuarios/TablaUsuarios.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
+        <form action="./TablaCitas.php" class="" method="post" name="formulario2" id="formulario2" onsubmit="">
 
             <div class="d-flex justify-content-center align-items-center gap-4">
 
@@ -39,9 +39,11 @@ $cit = new Cita();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="citas.id_cita">Código cita</option>
+                            <option value="Persona_Paciente.nombre">Nombre paciente</option>
+                            <option value="Persona_Paciente.apellido">Apellido paciente</option>
+                            <option value="Persona_Doctor.nombre">Nombre doctor</option>        
+                            <option value="Persona_Doctor.apellido">Apellido doctor</option>                    
                         </select>
                     </div>
                 </div>
@@ -60,7 +62,7 @@ $cit = new Cita();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoCit->filtrarCita($v1, $v2);
+        echo $foot . $DaoCit->filtrarCita($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoCit->getTabla() . "</section>";
     }

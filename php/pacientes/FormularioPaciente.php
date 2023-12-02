@@ -3,6 +3,12 @@ include_once 'DAOPacientes.php';
 include_once 'Paciente.php';
 $DaoPac = new DAOPacientes();
 $pac = new Paciente();
+
+// En otras partes del código donde necesitas saber el modo
+
+// $modo = isset($_SESSION['modo']) ? $_SESSION['modo'] : '';
+$modo = isset($_GET['accion']) ? $_GET['accion'] : '';
+
 ?>
 
 <head>
@@ -59,9 +65,9 @@ $pac = new Paciente();
             </div>
 
             <div class="d-flex justify-content-between py-3">
-                <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn">Agregar</button>
-                <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger custon-btn">Modificar</button>
-                <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark custon-btn">Eliminar</button>
+                <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn" <?php echo ($modo === 'agregar') ? '' : 'disabled'; ?>>Agregar</button>
+                <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger custon-btn" <?php echo ($modo === 'actualizar') ? '' : 'disabled'; ?>>Modificar</button>
+                <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark custon-btn" <?php echo ($modo === 'actualizar') ? '' : 'disabled'; ?>>Eliminar</button>
             </div>
         </form>
 

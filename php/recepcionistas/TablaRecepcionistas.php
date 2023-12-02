@@ -41,9 +41,9 @@ $recp = new Recepcionista();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="recp.id_recepcionista">Código</option>
+                            <option value="per.nombre">Nombre</option>
+                            <option value="per.dni">Identidad</option>
                         </select>
                     </div>
                 </div>
@@ -60,8 +60,7 @@ $recp = new Recepcionista();
     if (isset($_REQUEST["btnBuscar"])) {
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
-
-        echo $Daorecp->filtrarPaciente($v1, $v2);
+        echo $foot . $Daorecp->filtrarPaciente($v1, $v2) . "</section>";
     } else {
         echo $foot . $Daorecp->getTabla() . "</section>";
     }
