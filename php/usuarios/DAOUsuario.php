@@ -17,7 +17,8 @@ class DAOUsuario
         $this->DaoPer = new DAOPersona();
     }
 
-    public function getMedicos() {
+    public function getMedicos()
+    {
         $sql = "SELECT 
         persona.id_persona,
         CONCAT(persona.nombre, ' ', persona.apellido) AS nombre_completo,
@@ -29,7 +30,7 @@ class DAOUsuario
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
 
         $medicos = "<select class='form-select' id='id_doctor' name='id_doctor' aria-label='Default select example'>"
-        . "<option value=''>Seleccione un medico</option>";
+            . "<option value=''>Seleccione un medico</option>";
 
         while ($tupla = mysqli_fetch_assoc($res)) {
             $selected = (isset($_GET['id_persona']) && $_GET['id_persona'] === $tupla["id_persona"]) ? 'selected' : '';
@@ -41,7 +42,8 @@ class DAOUsuario
         return $medicos;
     }
 
-    public function getRecepcionistas() {
+    public function getRecepcionistas()
+    {
         $sql = "SELECT 
         persona.id_persona,
         CONCAT(persona.nombre, ' ', persona.apellido) AS nombre_completo,
@@ -53,7 +55,7 @@ class DAOUsuario
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
 
         $medicos = "<select class='form-select' id='id_recepcionista' name='id_recepcionista' aria-label='Default select example'>"
-        . "<option value=''>Seleccione un recepcionista</option>";
+            . "<option value=''>Seleccione un recepcionista</option>";
 
         while ($tupla = mysqli_fetch_assoc($res)) {
             $selected = (isset($_GET['id_persona']) && $_GET['id_persona'] === $tupla["id_persona"]) ? 'selected' : '';
@@ -137,64 +139,48 @@ class DAOUsuario
 
     public function ingresarUsuario($objeto)
     {
-        // $id_persona = $this->DaoPer->insertar($objeto);
 
-        // if ($id_persona) {
-        if(true) {
-            // Prepare and execute the second query
-            $sql_query_pac = "INSERT INTO usuario (id_persona, rol, pass, estado) VALUES (?, ?, ?, ?)";
-            $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
+        // Prepare and execute the second query
+        $sql_query_pac = "INSERT INTO usuario (id_persona, rol, pass, estado) VALUES (?, ?, ?, ?)";
+        $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
 
-            if ($stmt_pac) {
-                $rol = $objeto->getRol();
-                $pass = $objeto->getPassword();
-                $estado = $objeto->getEstado();
-                $id_persona = $objeto->getIdPersona();
+        if ($stmt_pac) {
+            $rol = $objeto->getRol();
+            $pass = $objeto->getPassword();
+            $estado = $objeto->getEstado();
+            $id_persona = $objeto->getIdPersona();
 
-                // imprime en consola los valores que se van a insertar
-                echo "<script>console.log('id_persona: " . $id_persona . "');</script>";
+            // imprime en consola los valores que se van a insertar
+            echo "<script>console.log('id_persona: " . $id_persona . "');</script>";
 
-                $stmt_pac->bind_param("isss", $id_persona, $rol, $pass, $estado);
+            $stmt_pac->bind_param("isss", $id_persona, $rol, $pass, $estado);
 
-                if ($stmt_pac->execute()) {
-                    echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
-                    $stmt_pac->close();
-                    //header("Location: TablaPacientes.php");
-                    //exit();
-                } else {
-                    echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
-                    $stmt_pac->close();
-                }
+            if ($stmt_pac->execute()) {
+                echo "<script>swal({title:'Inserción exitosa',text:'Se ha agregado con éxito a la base de datos.', icon: 'success', type: 'success'});</script>";
+                $stmt_pac->close();
             } else {
-                return "Hubo un error en la preparación de la segunda consulta: " . $this->DaoPer->getConexion()->error();
+                echo "<script>swal({title:'Error',text:'No se ha podido agregar a la base de datos.', icon: 'error', type: 'error'});</script>";
+                $stmt_pac->close();
             }
         } else {
-            return "Hubo un error en la preparación de la primera consulta: ";
+            return "Hubo un error en la preparación de la segunda consulta: " . $this->DaoPer->getConexion()->error();
         }
     }
 
     public function actualizarUsuario($objeto)
     {
+        $id_usuario = $objeto->getIdUsuario();
+        $rol = $objeto->getRol();
+        $pass = $objeto->getPassword();
+        $estado = $objeto->getEstado();
 
-        $p = $objeto;
-        $resp = $this->DaoPer->actualizar($objeto);
+        $sql = "UPDATE usuario SET rol = '" . $rol . "', estado = '" . $estado
+            . "' WHERE id_usuario = " . $id_usuario;
 
-        if ($resp) {
-            $id_usuario = $objeto->getIdUsuario();
-            $rol = $objeto->getRol();
-            $pass = $objeto->getPassword();
-            $estado = $objeto->getEstado();
-
-            $sql = "UPDATE usuario SET rol = '" . $rol . "', estado = '" . $estado
-                . "' WHERE id_usuario = " . $id_usuario;
-
-            if ($this->DaoPer->getConexion()->hacerConsulta($sql)) {
-                //mensaje de éxito con sweet alert                             
-                echo "<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
-            }
+        if ($this->DaoPer->getConexion()->hacerConsulta($sql)) {  
+            echo "<script>swal({title:'Actualización exitosa',text:'Datos actualizados correctamente.', type: 'success'});</script>";
         } else {
-            //mensaje de error con sweet alert   
-            echo "<script>swal({title:'Error',text:'No se ha podido actualizar la base de datos.', type: 'error'});</script>";
+            echo "<script>swal({title:'Error',text:'No se ha podido actualizar los datos.', type: 'error'});</script>";
         }
     }
 
@@ -239,8 +225,6 @@ class DAOUsuario
             $stmt->bind_param("i", $id_usuario);
 
             if ($stmt->execute()) {
-                $dni = $p->getDni();
-                $this->DaoPer->eliminar($dni);
                 echo "<script>swal({title:'Borrado exitoso',text:'Se ha eliminado con éxito a la base de datos.', type: 'success'});</script>";
             } else {
                 echo "<script>swal({title:'Error',text:' No existe el paciente con ese código.', type: 'error'});</script>";

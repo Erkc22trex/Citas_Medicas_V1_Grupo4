@@ -13,10 +13,10 @@ $usr = new Usuario();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
-        #id_doctor,
+        /* #id_doctor,
         #id_recepcionista, #medicos, #recepcionistas {
             display: none;
-        }
+        } */
     </style>
 </head>
 
@@ -34,7 +34,7 @@ $usr = new Usuario();
 
 
                 <div class="mb-3">
-                    <label id="valuetoggleSelect" for="toggleSelect">Mostrar Médicos</label>
+                    <label id="valuetoggleSelect" for="toggleSelect">Usuario para médico</label>
                     <input type="checkbox" id="toggleSelect" onchange="toggleSelects()">
                 </div>
 
@@ -86,22 +86,12 @@ $usr = new Usuario();
     <?php
     $foot = "<section style='position: relative; margin: auto; width: 900px;'>";
     if (isset($_REQUEST["btnAgregar"])) {
-        // $usr->setDni($_REQUEST["dni"]);
-        // $usr->setNombre($_REQUEST["nombre"]);
-        // $usr->setApellido($_REQUEST["apellido"]);
-        // $usr->setTelefono($_REQUEST["telefono"]);
-        // $usr->setEdad($_REQUEST["edad"]);
-        // $usr->setSexo($_REQUEST["sexo"]);
-        // $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
-        // $usr->setDireccion($_REQUEST["direccion"]);
-        // $usr->setCorreo($_REQUEST["correo"]);
 
         if(isset($_REQUEST["id_doctor"])) {
             $usr->setIdPersona($_REQUEST["id_doctor"]);
         } else {
             $usr->setIdPersona($_REQUEST["id_recepcionista"]);
         }
-        // $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setRol($_REQUEST["rol"]);
         $usr->setPassword($_REQUEST["password"]);
         $usr->setEstado($_REQUEST["estado"]);
@@ -113,18 +103,7 @@ $usr = new Usuario();
         } else {
             $usr->setIdPersona($_REQUEST["id_recepcionista"]);
         }
-
-        // $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setIdUsuario($_REQUEST["id_usuario"]);
-        // $usr->setDni($_REQUEST["dni"]);
-        // $usr->setNombre($_REQUEST["nombre"]);
-        // $usr->setApellido($_REQUEST["apellido"]);
-        // $usr->setTelefono($_REQUEST["telefono"]);
-        // $usr->setEdad($_REQUEST["edad"]);
-        // $usr->setSexo($_REQUEST["sexo"]);
-        // $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
-        // $usr->setDireccion($_REQUEST["direccion"]);
-        // $usr->setCorreo($_REQUEST["correo"]);
         $usr->setRol($_REQUEST["rol"]);
         $usr->setPassword($_REQUEST["password"]);
         $usr->setEstado($_REQUEST["estado"]);
@@ -136,10 +115,8 @@ $usr = new Usuario();
         } else {
             $usr->setIdPersona($_REQUEST["id_recepcionista"]);
         }
-
-        // $usr->setIdPersona($_REQUEST["id_persona"]);
+        
         $usr->setIdUsuario($_REQUEST["id_usuario"]);
-        $usr->setDni($_REQUEST["dni"]);
         $DaoUsr->eliminarUsuario($usr);
     }
     ?>
@@ -183,22 +160,22 @@ $usr = new Usuario();
             var labelToggle = document.getElementById("valuetoggleSelect");
 
             if (checkBox.checked) {
-                selectMedicos.style.display = "block"; // Muestra el select de médicos
-                selectRecepcionistas.style.display = "none"; // Oculta el select de recepcionistas
+                selectMedicos.disabled = false;
+                selectRecepcionistas.disabled = true;
 
-                label.style.display = "block"; // Muestra el label de médicos
-                label2.style.display = "none"; // Oculta el label de recepcionistas
+                // label.style.display = "block"; // Muestra el label de médicos
+                // label2.style.display = "none"; // Oculta el label de recepcionistas
 
-                labelToggle.innerHTML = "Mostrar Recepcionistas";
+                labelToggle.innerHTML = "Usuario para Recepcionistas";
 
             } else {
-                selectMedicos.style.display = "none"; // Oculta el select de médicos
-                selectRecepcionistas.style.display = "block"; // Muestra el select de recepcionistas
+                selectMedicos.disabled = true;
+                selectRecepcionistas.disabled = false;
 
-                label.style.display = "none"; // Oculta el label de médicos
-                label2.style.display = "block"; // Muestra el label de recepcionistas
+                // label.style.display = "none"; // Oculta el label de médicos
+                // label2.style.display = "block"; // Muestra el label de recepcionistas
 
-                labelToggle.innerHTML = "Mostrar Médicos";
+                labelToggle.innerHTML = "Usuario para médico";
             }
         }
     </script>
