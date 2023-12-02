@@ -52,7 +52,7 @@
           <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">EXPEDIENTES</button>
         </div>
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">ESTADISTICAS</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaEstadisticas()">ESTADISTICAS</button>
         </div>
         <div class="col">
           <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return cerrarSesion()">CERRAR SESIÓN</button>
@@ -90,6 +90,10 @@
 
     function vistaUsuarios() {
       window.location.href = "usuarios/TablaUsuarios.php";
+    }
+
+    function vistaEstadisticas() {
+      window.location.href = "estadisticas/estadisticas.php";
     }
 
     function cerrarSesion() {
