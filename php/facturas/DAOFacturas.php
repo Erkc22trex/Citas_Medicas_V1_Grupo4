@@ -83,8 +83,7 @@ class DAOFacturas
         CONCAT(Persona_Paciente.nombre, ' ', Persona_Paciente.apellido) AS nombre_paciente
         FROM
             Paciente
-            INNER JOIN persona AS Persona_Paciente ON Paciente.id_persona = Persona_Paciente.id_persona;
-        ";
+            INNER JOIN persona AS Persona_Paciente ON Paciente.id_persona = Persona_Paciente.id_persona;";
 
         $res = $this->conn->query($sql);
 

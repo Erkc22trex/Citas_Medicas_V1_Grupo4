@@ -2,7 +2,6 @@
 include 'detalle_factura/DAODetFac.php';
 include 'Factura.php';
 include 'DAOFacturas.php';
-// include 'detalle_factura/DAODetFac.php';
 
 $fac = new Factura();
 $DaoFac = new DAOFacturas();
@@ -87,22 +86,11 @@ $DaoDetFac = new DAODetFac();
                     <div class="col">
                         <div class="mb-3">
                             <label for="monto_total">Monto total</label>
-                            <input type="number" class="form-control" id="monto_total" name="monto_total" value="<?php echo isset($_GET['monto_total']) ? $_GET['monto_total'] : ''; ?>">
+                            <input type="number" class="form-control" id="monto_total" min="700" name="monto_total" value="<?php echo isset($_GET['monto_total']) ? $_GET['monto_total'] : '700'; ?>">
                         </div>
                     </div>
                 </div>
-
-
-                <!-- <label for="paciente">Paciente</label>
-                <input type="text" class="form-control" id="paciente" name="paciente" value="<?php echo isset($_GET['paciente']) ? $_GET['paciente'] : ''; ?>">
-
-                <label for="medico">Médico</label>
-                <input type="text" class="form-control" id="medico" name="medico" value="<?php echo isset($_GET['medico']) ? $_GET['medico'] : ''; ?>"> -->
-
-
             </div>
-
-
 
             <div class="d-flex justify-content-between py-3">
                 <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary">Agregar</button>
@@ -110,6 +98,8 @@ $DaoDetFac = new DAODetFac();
                 <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark">Eliminar</button>
             </div>
         </form>
+
+
         <div style="position: relative; margin: auto; width: 900px;">
             <div class="py-3 d-flex flex-row-reverse">
                 <button id="btnAgregarDetFac" class="btn btn-primary" onclick="return agregarDetalleFactura()">
@@ -191,40 +181,17 @@ $DaoDetFac = new DAODetFac();
             window.location.href = "TablaFacturas.php";
         }
 
-        // function regresar() {
-        //     window.location.href = './TablaItinerarios.php?id_medico=' + document.getElementById("id_medico").value;
-        // }
+        function seleccionarDetalleFactura(id_det_Factura, id_factura, descripcion, precio) {
+            window.location.href = './detalle_factura/FormularioDetFac.php?id_det_Factura=' + id_det_Factura +
+                '&id_factura=' + id_factura +
+                '&descripcion=' + descripcion +
+                '&precio=' + precio;
+        }
+
         function agregarDetalleFactura() {
             window.location.href = "./detalle_factura/FormularioDetFac.php?id_factura=" + document.getElementById("id_factura").value;
         }
 
-
-
-
-
-
-        // Función que se ejecuta cuando se selecciona una cita
-        function actualizarCamposCita() {
-            // Obtener el elemento select
-            var selectCita = document.getElementById('id_cita');
-
-            // Obtener el valor seleccionado
-            var idCitaSeleccionada = selectCita.value;
-
-            console.log(idCitaSeleccionada);
-
-            // Realizar una petición AJAX o utilizar otro método para obtener los datos del paciente y del médico basados en la id de la cita
-
-            // Actualizar los campos de paciente y médico
-            document.getElementById('paciente').value = "Datos del paciente para la cita " + idCitaSeleccionada;
-            document.getElementById('medico').value = "Datos del médico para la cita " + idCitaSeleccionada;
-        }
-
-        // Asignar la función al evento onchange del select de la cita
-        var selectCita = document.getElementById('id_cita');
-        if (selectCita) {
-            selectCita.onchange = actualizarCamposCita;
-        }
     </script>
 
 </body>

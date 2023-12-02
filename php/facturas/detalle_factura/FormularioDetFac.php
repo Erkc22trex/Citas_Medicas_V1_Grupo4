@@ -1,7 +1,7 @@
 <?php
 include 'DAODetfac.php';
 include 'DetalleFactura.php';
-$DaoExp = new DAODetFac();
+$DaoDetFac = new DAODetFac();
 $detFac = new DetalleFactura();
 ?>
 
@@ -22,6 +22,7 @@ $detFac = new DetalleFactura();
 
         <form action="./FormularioDetFac.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <input type="hidden" name="id_factura" id="id_factura" value="<?php echo isset($_GET['id_factura']) ? $_GET['id_factura'] : ''; ?>">
+            <input type="hidden" name="id_det_Factura" id="id_det_Factura" value="<?php echo isset($_GET['id_det_Factura']) ? $_GET['id_det_Factura'] : ''; ?>">
 
             <div class="mb-3">
                 <div class="form-floating my-4">
@@ -33,8 +34,8 @@ $detFac = new DetalleFactura();
             </div>
 
             <div class="mb-3">
-                <label for="monto_total">Monto total</label>
-                <input type="number" class="form-control" id="monto_total" name="monto_total" value="<?php echo isset($_GET['monto_total']) ? $_GET['monto_total'] : ''; ?>">
+                <label for="precio">Precio</label>
+                <input type="number" class="form-control" id="precio" name="precio" value="<?php echo isset($_GET['precio']) ? $_GET['precio'] : ''; ?>">
             </div>
 
             <div class="d-flex justify-content-between py-3">
@@ -48,23 +49,20 @@ $detFac = new DetalleFactura();
 
     <?php
     if (isset($_REQUEST["btnAgregar"])) {
-        // $exp->setIdPaciente($_REQUEST["id_paciente"]);
-        // $exp->setIdMedico($_REQUEST["id_doctor"]);
-        // $exp->setDianostico($_REQUEST["diagnostico"]);
-        // $exp->setTratamiento($_REQUEST["tratamiento"]);
-        // $exp->setObservaciones($_REQUEST["observaciones"]);
-        // $DaoExp->ingresarExpediente($exp);
+        $detFac->setIdFactura($_REQUEST["id_factura"]);
+        $detFac->setDescripcion($_REQUEST["descripcion"]);
+        $detFac->setPrecio($_REQUEST["precio"]);
+        $DaoDetFac->ingresarDetalleFactura($detFac);
     } elseif (isset($_REQUEST["btnModificar"])) {
-        // $exp->setIdExpediente($_REQUEST["id_expediente"]);
-        // $exp->setIdPaciente($_REQUEST["id_paciente"]);
-        // $exp->setIdMedico($_REQUEST["id_doctor"]);
-        // $exp->setDianostico($_REQUEST["diagnostico"]);
-        // $exp->setTratamiento($_REQUEST["tratamiento"]);
-        // $exp->setObservaciones($_REQUEST["observaciones"]);
-        // $DaoExp->actualizarExpediente($exp);
+        $detFac->setIdDetalleFactura($_REQUEST["id_det_Factura"]);
+        $detFac->setIdFactura($_REQUEST["id_factura"]);
+        $detFac->setDescripcion($_REQUEST["descripcion"]);
+        $detFac->setPrecio($_REQUEST["precio"]);
+        $DaoDetFac->actualizarDetalleFactura($detFac);
     } elseif (isset($_REQUEST["btnEliminar"])) {
-        // $exp->setIdExpediente($_REQUEST["id_expediente"]);
-        // $DaoExp->eliminarExpediente($exp);
+        $detFac->setIdDetalleFactura($_REQUEST["id_det_Factura"]);
+        $detFac->setIdFactura($_REQUEST["id_factura"]);
+        $DaoDetFac->eliminarDetalleFactura($detFac);
     }
     ?>
 
@@ -73,25 +71,10 @@ $detFac = new DetalleFactura();
             // Obtener el formulario
             const form = document.getElementById("formulario1");
 
-            // Comprobar que los selects no estén vacíos
-            const selects = form.querySelectorAll("select");
-            for (const select of selects) {
-                if (select.value === "") {
-                    // Mostrar un sweet alert
-                    Swal.fire({
-                        title: "Error",
-                        text: "El campo " + select.id + " es obligatorio",
-                        icon: "error",
-                        buttons: ["Aceptar"]
-                    });
-                    return false;
-                }
-            }
-
             // Comprobar que los inputs no estén vacíos
             const inputs = form.querySelectorAll("input");
             for (const input of inputs) {
-                if ((input.value === "") && (input.id !== "id_expediente")) {
+                if ((input.value === "") && (input.id !== "id_factura") && (input.id !== "id_det_Factura")) {
                     // Mostrar un sweet alert
                     Swal.fire({
                         title: "Error",
@@ -109,9 +92,6 @@ $detFac = new DetalleFactura();
             location.reload();
         }
 
-        // function regresar() {
-        //     window.location.href = './TablaItinerarios.php?id_medico=' + document.getElementById("id_medico").value;
-        // }
         function regresar() {
             window.location.href = "../FormularioFacturas.php?id_factura=" + document.getElementById("id_factura").value;
         }
