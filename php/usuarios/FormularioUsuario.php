@@ -107,7 +107,14 @@ $usr = new Usuario();
         $usr->setEstado($_REQUEST["estado"]);
         $DaoUsr->ingresarUsuario($usr);
     } elseif (isset($_REQUEST["btnModificar"])) {
-        $usr->setIdPersona($_REQUEST["id_persona"]);
+
+        if(isset($_REQUEST["id_doctor"])) {
+            $usr->setIdPersona($_REQUEST["id_doctor"]);
+        } else {
+            $usr->setIdPersona($_REQUEST["id_recepcionista"]);
+        }
+
+        // $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setIdUsuario($_REQUEST["id_usuario"]);
         // $usr->setDni($_REQUEST["dni"]);
         // $usr->setNombre($_REQUEST["nombre"]);
@@ -123,7 +130,14 @@ $usr = new Usuario();
         $usr->setEstado($_REQUEST["estado"]);
         $DaoUsr->actualizarUsuario($usr);
     } elseif (isset($_REQUEST["btnEliminar"])) {
-        $usr->setIdPersona($_REQUEST["id_persona"]);
+
+        if(isset($_REQUEST["id_doctor"])) {
+            $usr->setIdPersona($_REQUEST["id_doctor"]);
+        } else {
+            $usr->setIdPersona($_REQUEST["id_recepcionista"]);
+        }
+
+        // $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setIdUsuario($_REQUEST["id_usuario"]);
         $usr->setDni($_REQUEST["dni"]);
         $DaoUsr->eliminarUsuario($usr);
