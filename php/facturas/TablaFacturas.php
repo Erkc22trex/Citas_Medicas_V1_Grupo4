@@ -52,7 +52,7 @@ $fac = new Factura();
     </section>
 
     <div class="d-flex justify-content-end align-items-center me-5 pe-2 mb-3">
-        <button type="submit" id="btnAgregarPac" name="btnAgregarPac" class="btn btn-success" onclick="return agregarCita()">Crear Factura</button>
+        <button type="submit" id="btnAgregarPac" name="btnAgregarPac" class="btn btn-success" onclick="return agregarFactura()">Crear Factura</button>
     </div>
     <?php
     $foot = "<section class='p-5 overflow-auto' style='max-height: 500px;'>";
@@ -78,7 +78,7 @@ $fac = new Factura();
                 '&estado=' + estado;
         }
 
-        function agregarCita() {
+        function agregarFactura() {
             window.location.href = './FormularioFacturas.php';
         }
 

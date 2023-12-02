@@ -19,11 +19,10 @@ $med = new Medico();
         <div class="px-5 py-2">
             <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary custon-btn" onclick="return regresar()">atras</button>
         </div>
-        <h2 style="position: relative; margin: auto; width: 500px;">Formulario de Medico</h2>
+        <h2 style="position: relative; margin: auto; width: 500px;">Formulario de Médico</h2>
 
         <form action="./FormularioMedico.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <div class="mb-3">
-                <!-- <input type="hidden" name="accion" id="accion" value="<?php echo isset($_GET['accion']) ? $_GET['accion'] : ''; ?>"> -->
                 <input type="hidden" name="id_medico" id="id_medico" value="<?php echo isset($_GET['id_medico']) ? $_GET['id_medico'] : ''; ?>">
                 <input type="hidden" name="id_persona" id="id_persona" value="<?php echo isset($_GET['id_persona']) ? $_GET['id_persona'] : ''; ?>">
                 
@@ -115,7 +114,7 @@ $med = new Medico();
             // Comprobar que todos los campos estén rellenos
             const inputs = form.querySelectorAll("input");
             for (const input of inputs) {
-                if ((input.value === "") && (input.id !== "id_paciente") && (input.id !== "id_persona")) {
+                if ((input.value === "") && (input.id !== "id_medico") && (input.id !== "id_persona")) {
                     // Mostrar un sweet alert
                     Swal.fire({
                         title: "Error",

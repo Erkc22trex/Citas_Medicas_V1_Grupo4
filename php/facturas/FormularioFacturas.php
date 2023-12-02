@@ -1,8 +1,12 @@
 <?php
-include 'DAOFacturas.php';
+include 'detalle_factura/DAODetFac.php';
 include 'Factura.php';
-$DaoFac = new DAOFacturas();
+include 'DAOFacturas.php';
+// include 'detalle_factura/DAODetFac.php';
+
 $fac = new Factura();
+$DaoFac = new DAOFacturas();
+$DaoDetFac = new DAODetFac();
 ?>
 
 <head>
@@ -98,12 +102,24 @@ $fac = new Factura();
 
             </div>
 
+
+
             <div class="d-flex justify-content-between py-3">
                 <button type="submit" id="btnAgregar" name="btnAgregar" class="btn btn-primary">Agregar</button>
                 <button type="submit" id="btnModificar" name="btnModificar" class="btn btn-danger">Modificar</button>
                 <button type="submit" id="btnEliminar" name="btnEliminar" class="btn btn-dark">Eliminar</button>
             </div>
         </form>
+        <div style="position: relative; margin: auto; width: 900px;">
+            <div class="py-3 d-flex flex-row-reverse">
+                <button id="btnAgregarDetFac" class="btn btn-primary" onclick="return agregarDetalleFactura()">
+                    agregar detalle factura
+                </button>
+            </div>
+            <?php
+            echo $DaoDetFac->getTabla(isset($_GET['id_factura']) ? $_GET['id_factura'] : '');
+            ?>
+        </div>
 
     </section>
 
@@ -174,6 +190,18 @@ $fac = new Factura();
         function regresar() {
             window.location.href = "TablaFacturas.php";
         }
+
+        // function regresar() {
+        //     window.location.href = './TablaItinerarios.php?id_medico=' + document.getElementById("id_medico").value;
+        // }
+        function agregarDetalleFactura() {
+            window.location.href = "./detalle_factura/FormularioDetFac.php?id_factura=" + document.getElementById("id_factura").value;
+        }
+
+
+
+
+
 
         // Función que se ejecuta cuando se selecciona una cita
         function actualizarCamposCita() {

@@ -1,15 +1,17 @@
 <?php
 
-include '../../php/ConexionDB.php';
-
 class DAOFacturas
 {
-
     private $conn;
 
     public function __construct()
     {
-        $this->conn = new ConexionDB("localhost", "root", "", "gestion_de_citas");
+        $this->conn = new mysqli("localhost", "root", "", "gestion_de_citas");
+    }
+
+    public function getConenction()
+    {
+        return $this->conn;
     }
 
     public function getCita()
@@ -35,7 +37,7 @@ class DAOFacturas
             citas.estado = 'Finalizada';
         ";
 
-        $res = $this->conn->hacerConsulta($sql);
+        $res = $this->conn->query($sql);
 
         $pacientes = "<select class='form-select' id='id_cita' name='id_cita' aria-label='Default select example'>"
             . "<option value=''>Seleccione un cita</option>";
@@ -60,7 +62,7 @@ class DAOFacturas
             INNER JOIN persona AS Persona_Doctor ON Doctor.id_persona = Persona_Doctor.id_persona;
         ";
 
-        $res = $this->conn->hacerConsulta($sql);
+        $res = $this->conn->query($sql);
 
         $medicos = "<select class='form-select' id='id_doctor' name='id_doctor' aria-label='Default select example'>"
         . "<option value=''>Seleccione un medico</option>";
@@ -84,7 +86,7 @@ class DAOFacturas
             INNER JOIN persona AS Persona_Paciente ON Paciente.id_persona = Persona_Paciente.id_persona;
         ";
 
-        $res = $this->conn->hacerConsulta($sql);
+        $res = $this->conn->query($sql);
 
         $pacientes = "<select class='form-select' id='id_paciente' name='id_paciente' aria-label='Default select example'>"
         . "<option value=''>Seleccione un paciente</option>";
@@ -115,7 +117,7 @@ class DAOFacturas
             JOIN paciente ON citas.id_paciente = paciente.id_paciente
             JOIN persona pac_persona ON paciente.id_persona = pac_persona.id_persona;";
 
-        $res = $this->conn->hacerConsulta($sql);
+        $res = $this->conn->query($sql);
 
         $tabla = "<table class='table table-dark'>
         <thead>
@@ -166,10 +168,8 @@ class DAOFacturas
     public function ingresarFactura($objeto)
     {
         $fac = $objeto;
-
         $sql = "INSERT INTO facturas (id_cita, monto_total, fecha_Emision, tipo_pago, estado) VALUES (?, ?, ?, ?, ?)";
-
-        $stmt = $this->conn->prepare_query($sql);
+        $stmt = $this->conn->prepare($sql);
 
         if ($stmt) {
             $id_cita = $fac->getIdCita();
@@ -189,17 +189,14 @@ class DAOFacturas
             }
         } else {
             echo "<script>swal({title:'Error',text:' No se ha podido ingresar a la base de datos.', type: 'error'});</script>";
-            $stmt->close();
         }
     }
 
     public function actualizarFactura($objeto)
     {
         $fac = $objeto;
-
         $sql = "UPDATE facturas SET id_cita = ?, monto_total = ?, fecha_Emision = ?, tipo_pago = ?, estado = ? WHERE id_factura = ?";
-
-        $stmt = $this->conn->prepare_query($sql);
+        $stmt = $this->conn->prepare($sql);
 
         if ($stmt) {
             $id_cita = $fac->getIdCita();
@@ -220,7 +217,6 @@ class DAOFacturas
             }
         } else {
             echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
-            $stmt->close();
         }
     }
 
@@ -230,8 +226,8 @@ class DAOFacturas
 
         $sql = "DELETE FROM facturas WHERE id_factura = ?";
         $sql2 = "DELETE FROM detalle_facturas WHERE id_factura = ?";
-        $stmt = $this->conn->prepare_query($sql);
-        $stmt2 = $this->conn->prepare_query($sql2);
+        $stmt = $this->conn->prepare($sql);
+        $stmt2 = $this->conn->prepare($sql2);
 
         if ($stmt && $stmt2) {
             $id_factura = $fac->getIdFactura();
