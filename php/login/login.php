@@ -21,7 +21,7 @@ $usr = new Usuario();
     <main class="d-flex flex-column">
 
         <div class="d-flex justify-content-center align-items-center">
-            <img src="../../styles/logo.jpeg" class="" alt="logo citas" style="width: 200px; height: 200px;">
+            <img src="../styles/logo.jpeg" class="" alt="logo citas" style="width: 200px; height: 200px;">
         </div>
 
         <form class="d-flex flex-column justify-content-center align-items-center">
