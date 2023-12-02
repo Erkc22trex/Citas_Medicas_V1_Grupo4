@@ -21,7 +21,7 @@ $usr = new Usuario();
     <main class="d-flex flex-column">
 
         <div class="d-flex justify-content-center align-items-center">
-            <img src="../styles/logo.jpeg" class="" alt="logo citas" style="width: 200px; height: 200px;">
+            <img src="Citas_Medicas_V1_Grupo4/php/styles/logo.jpeg" class="" alt="logo citas" style="width: 200px; height: 200px;">
         </div>
 
         <form class="d-flex flex-column justify-content-center align-items-center">
@@ -62,7 +62,7 @@ $usr = new Usuario();
                     localStorage.setItem('correo', jsonData.correo);
                     localStorage.setItem('rol', jsonData.rol);
                     localStorage.setItem('id_persona', jsonData.id_persona);
-                    window.location.href = '../MenuPrincipal.php';
+                    window.location.href = 'Citas_Medicas_V1_Grupo4/php/MenuPrincipal.php';
                 </script>";
             exit();
         } else {

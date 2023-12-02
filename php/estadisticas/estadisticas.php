@@ -17,6 +17,7 @@ $conn = new ConexionDB('localhost', 'root', '', 'gestion_de_citas');
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" href="../styles/styles.css">
+    
     <script type="text/javascript">
         google.charts.load('current', {
             'packages': ['corechart']
