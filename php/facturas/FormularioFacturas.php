@@ -24,13 +24,14 @@ $DaoDetFac = new DAODetFac();
         <h2 style="position: relative; margin: auto; width: 500px;">Formulario de factura</h2>
 
         <form action="./FormularioFacturas.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 900px;">
+
             <input type="hidden" name="id_factura" id="id_factura" value="<?php echo isset($_GET['id_factura']) ? $_GET['id_factura'] : ''; ?>">
 
             <div class="container text-center">
                 <div class="row">
                     <div class="col">
                         <div class="mb-3">
-                            <label for="id_cita">Cita</label>
+                            <label for="_cita">Cita</label>
                             <?php
                             echo $DaoFac->getCita();
                             ?>
@@ -38,7 +39,7 @@ $DaoDetFac = new DAODetFac();
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="id_medico">Médicos</label>
+                            <label for="_medico">Médicos</label>
                             <?php
                             echo $DaoFac->getMedicos();
                             ?>
@@ -46,7 +47,7 @@ $DaoDetFac = new DAODetFac();
                     </div>
                     <div class="col">
                         <div class="mb-3">
-                            <label for="id_medico">Paciente</label>
+                            <label for="_paciente">Paciente</label>
                             <?php
                             echo $DaoFac->getPaciente();
                             ?>
@@ -112,6 +113,36 @@ $DaoDetFac = new DAODetFac();
         </div>
 
     </section>
+
+    <?php
+    $id_factura = isset($_GET['id_factura']) ? $_GET['id_factura'] : '';
+
+    // Si hay un id_factura en la URL, obtener los datos de la factura
+    $factura_existente = null;
+    if (!empty($id_factura)) {
+        $factura_existente = $DaoFac->obtenerDatosFactura($id_factura);
+
+        //mostrar los que hay en la variable $factura_existente en el navegador
+
+        // asignar los datos de la factura a las variables
+        $id_cita = $factura_existente['id_cita'];
+        $estado = $factura_existente['estado'];
+        $tipo_pago = $factura_existente['tipo_pago'];
+        $fecha_Emision = $factura_existente['fecha_Emision'];
+        $monto_total = $factura_existente['monto_total'];
+
+        // ahora con una funcion en el script, asignar los valores a los inputs con manipulacion del DOM
+        echo "<script> 
+                    document.getElementById('id_cita').value = '$id_cita';
+                    document.getElementById('estado').value = '$estado';
+                    document.getElementById('tipo_pago').value = '$tipo_pago';
+                    document.getElementById('fecha_Emision').value = '$fecha_Emision';
+                    document.getElementById('monto_total').value = '$monto_total';
+                    recargar();
+                </script>";
+    }
+    ?>
+
 
     <?php
     if (isset($_REQUEST["btnAgregar"])) {
@@ -191,7 +222,6 @@ $DaoDetFac = new DAODetFac();
         function agregarDetalleFactura() {
             window.location.href = "./detalle_factura/FormularioDetFac.php?id_factura=" + document.getElementById("id_factura").value;
         }
-
     </script>
 
 </body>

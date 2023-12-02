@@ -11,6 +11,13 @@ $usr = new Usuario();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        #id_doctor,
+        #id_recepcionista, #medicos, #recepcionistas {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,41 +29,28 @@ $usr = new Usuario();
 
         <form action="./FormularioUsuario.php" method="post" name="formulario1" id="formulario1" onsubmit="return validar()" style="position: relative; margin: auto; width: 500px;">
             <div class="mb-3">
-                <!-- <input type="hidden" name="accion" id="accion" value="<?php echo isset($_GET['accion']) ? $_GET['accion'] : ''; ?>"> -->
                 <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo isset($_GET['id_usuario']) ? $_GET['id_usuario'] : ''; ?>">
                 <input type="hidden" name="id_persona" id="id_persona" value="<?php echo isset($_GET['id_persona']) ? $_GET['id_persona'] : ''; ?>">
 
-                <label for="dni">DNI</label>
-                <input type="text" class="form-control" id="dni" name="dni" maxlength="100" value="<?php echo isset($_GET['dni']) ? $_GET['dni'] : ''; ?>">
 
-                <label for="nombre">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo isset($_GET['nombre']) ? $_GET['nombre'] : ''; ?>">
+                <div class="mb-3">
+                    <label id="valuetoggleSelect" for="toggleSelect">Mostrar Médicos</label>
+                    <input type="checkbox" id="toggleSelect" onchange="toggleSelects()">
+                </div>
 
-                <label for="apellido">Apellido</label>
-                <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo isset($_GET['apellido']) ? $_GET['apellido'] : ''; ?>">
 
-                <label for="telefono">Telefono</label>
-                <input type="text" class="form-control" id="telefono" name="telefono" value="<?php echo isset($_GET['telefono']) ? $_GET['telefono'] : ''; ?>">
+                <label id="medicos" for="medicos">Médicos</label>
+                <?php
+                echo $DaoUsr->getMedicos();
+                ?>
 
-                <label for="edad">Edad</label>
-                <input type="number" class="form-control" id="edad" name="edad" value="<?php echo isset($_GET['edad']) ? $_GET['edad'] : ''; ?>">
+                <label id="recepcionistas" for="recepcionistas">Recepcionistas</label>
+                <?php
+                echo $DaoUsr->getRecepcionistas();
+                ?>
 
-                <label for="sexo">sexo</label>
-                <select class="form-select" id="sexo" name="sexo" aria-label="Default select example">
-                    <option <?php echo (!isset($_GET['sexo']) || $_GET['sexo'] === 'Seleccionar sexo') ? 'selected' : ''; ?>>Seleccionar sexo</option>
-                    <option value="M" <?php echo (isset($_GET['sexo']) && $_GET['sexo'] === 'M') ? 'selected' : ''; ?>>Masculino</option>
-                    <option value="F" <?php echo (isset($_GET['sexo']) && $_GET['sexo'] === 'F') ? 'selected' : ''; ?>>Femenino</option>
-                </select>
-                <!-- <input type="text" class="form-control" id="sexo" name="sexo" value="<?php echo isset($_GET['sexo']) ? $_GET['sexo'] : ''; ?>"> -->
-
-                <label for="fecha_nacimiento">Fecha de nacimiento</label>
-                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" value="<?php echo isset($_GET['fecha_nacimiento']) ? $_GET['fecha_nacimiento'] : ''; ?>">
-
-                <label for="direccion">Direccion</label>
-                <input type="text" class="form-control" id="direccion" name="direccion" value="<?php echo isset($_GET['direccion']) ? $_GET['direccion'] : ''; ?>">
-
-                <label for="correo">Correo</label>
-                <input type="text" class="form-control" id="correo" name="correo" value="<?php echo isset($_GET['correo']) ? $_GET['correo'] : ''; ?>">
+                <!-- <label for="correo">Correo</label>
+                <input type="text" class="form-control" id="correo" name="correo" value="<?php echo isset($_GET['correo']) ? $_GET['correo'] : ''; ?>"> -->
 
                 <label for="rol">Rol</label>
                 <select class="form-select" id="rol" name="rol" aria-label="Default select example">
@@ -92,15 +86,22 @@ $usr = new Usuario();
     <?php
     $foot = "<section style='position: relative; margin: auto; width: 900px;'>";
     if (isset($_REQUEST["btnAgregar"])) {
-        $usr->setDni($_REQUEST["dni"]);
-        $usr->setNombre($_REQUEST["nombre"]);
-        $usr->setApellido($_REQUEST["apellido"]);
-        $usr->setTelefono($_REQUEST["telefono"]);
-        $usr->setEdad($_REQUEST["edad"]);
-        $usr->setSexo($_REQUEST["sexo"]);
-        $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
-        $usr->setDireccion($_REQUEST["direccion"]);
-        $usr->setCorreo($_REQUEST["correo"]);
+        // $usr->setDni($_REQUEST["dni"]);
+        // $usr->setNombre($_REQUEST["nombre"]);
+        // $usr->setApellido($_REQUEST["apellido"]);
+        // $usr->setTelefono($_REQUEST["telefono"]);
+        // $usr->setEdad($_REQUEST["edad"]);
+        // $usr->setSexo($_REQUEST["sexo"]);
+        // $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
+        // $usr->setDireccion($_REQUEST["direccion"]);
+        // $usr->setCorreo($_REQUEST["correo"]);
+
+        if(isset($_REQUEST["id_doctor"])) {
+            $usr->setIdPersona($_REQUEST["id_doctor"]);
+        } else {
+            $usr->setIdPersona($_REQUEST["id_recepcionista"]);
+        }
+        // $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setRol($_REQUEST["rol"]);
         $usr->setPassword($_REQUEST["password"]);
         $usr->setEstado($_REQUEST["estado"]);
@@ -108,15 +109,15 @@ $usr = new Usuario();
     } elseif (isset($_REQUEST["btnModificar"])) {
         $usr->setIdPersona($_REQUEST["id_persona"]);
         $usr->setIdUsuario($_REQUEST["id_usuario"]);
-        $usr->setDni($_REQUEST["dni"]);
-        $usr->setNombre($_REQUEST["nombre"]);
-        $usr->setApellido($_REQUEST["apellido"]);
-        $usr->setTelefono($_REQUEST["telefono"]);
-        $usr->setEdad($_REQUEST["edad"]);
-        $usr->setSexo($_REQUEST["sexo"]);
-        $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
-        $usr->setDireccion($_REQUEST["direccion"]);
-        $usr->setCorreo($_REQUEST["correo"]);
+        // $usr->setDni($_REQUEST["dni"]);
+        // $usr->setNombre($_REQUEST["nombre"]);
+        // $usr->setApellido($_REQUEST["apellido"]);
+        // $usr->setTelefono($_REQUEST["telefono"]);
+        // $usr->setEdad($_REQUEST["edad"]);
+        // $usr->setSexo($_REQUEST["sexo"]);
+        // $usr->setFechaNacimiento($_REQUEST["fecha_nacimiento"]);
+        // $usr->setDireccion($_REQUEST["direccion"]);
+        // $usr->setCorreo($_REQUEST["correo"]);
         $usr->setRol($_REQUEST["rol"]);
         $usr->setPassword($_REQUEST["password"]);
         $usr->setEstado($_REQUEST["estado"]);
@@ -157,6 +158,34 @@ $usr = new Usuario();
 
         function regresar() {
             window.location.href = "TablaUsuarios.php";
+        }
+
+        function toggleSelects() {
+            var checkBox = document.getElementById("toggleSelect");
+            var selectMedicos = document.getElementById("id_doctor");
+            var selectRecepcionistas = document.getElementById("id_recepcionista");
+            var label = document.getElementById("medicos");
+            var label2 = document.getElementById("recepcionistas");
+            var labelToggle = document.getElementById("valuetoggleSelect");
+
+            if (checkBox.checked) {
+                selectMedicos.style.display = "block"; // Muestra el select de médicos
+                selectRecepcionistas.style.display = "none"; // Oculta el select de recepcionistas
+
+                label.style.display = "block"; // Muestra el label de médicos
+                label2.style.display = "none"; // Oculta el label de recepcionistas
+
+                labelToggle.innerHTML = "Mostrar Recepcionistas";
+
+            } else {
+                selectMedicos.style.display = "none"; // Oculta el select de médicos
+                selectRecepcionistas.style.display = "block"; // Muestra el select de recepcionistas
+
+                label.style.display = "none"; // Oculta el label de médicos
+                label2.style.display = "block"; // Muestra el label de recepcionistas
+
+                labelToggle.innerHTML = "Mostrar Médicos";
+            }
         }
     </script>
 

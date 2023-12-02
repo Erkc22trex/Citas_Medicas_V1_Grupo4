@@ -17,6 +17,54 @@ class DAOUsuario
         $this->DaoPer = new DAOPersona();
     }
 
+    public function getMedicos() {
+        $sql = "SELECT 
+        persona.id_persona,
+        CONCAT(persona.nombre, ' ', persona.apellido) AS nombre_completo,
+        doctor.id_doctor
+        FROM persona
+        INNER JOIN doctor ON persona.id_persona = doctor.id_persona;
+        ";
+
+        $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
+
+        $medicos = "<select class='form-select' id='id_doctor' name='id_doctor' aria-label='Default select example'>"
+        . "<option value=''>Seleccione un medico</option>";
+
+        while ($tupla = mysqli_fetch_assoc($res)) {
+            $selected = (isset($_GET['id_persona']) && $_GET['id_persona'] === $tupla["id_persona"]) ? 'selected' : '';
+            $medicos .= "<option value='" . $tupla["id_persona"] . "' $selected>" . $tupla["nombre_completo"] . "</option>";
+        }
+
+        $medicos .= "</select>";
+        $res->close();
+        return $medicos;
+    }
+
+    public function getRecepcionistas() {
+        $sql = "SELECT 
+        persona.id_persona,
+        CONCAT(persona.nombre, ' ', persona.apellido) AS nombre_completo,
+        recepcionista.id_recepcionista
+        FROM persona
+        INNER JOIN recepcionista ON persona.id_persona = recepcionista.id_persona;
+        ";
+
+        $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
+
+        $medicos = "<select class='form-select' id='id_recepcionista' name='id_recepcionista' aria-label='Default select example'>"
+        . "<option value=''>Seleccione un recepcionista</option>";
+
+        while ($tupla = mysqli_fetch_assoc($res)) {
+            $selected = (isset($_GET['id_persona']) && $_GET['id_persona'] === $tupla["id_persona"]) ? 'selected' : '';
+            $medicos .= "<option value='" . $tupla["id_persona"] . "' $selected>" . $tupla["nombre_completo"] . "</option>";
+        }
+
+        $medicos .= "</select>";
+        $res->close();
+        return $medicos;
+    }
+
     public function getTabla()
     {
         $sql = "SELECT * FROM usuario usr INNER JOIN persona per ON usr.id_persona = per.id_persona;";
@@ -89,9 +137,10 @@ class DAOUsuario
 
     public function ingresarUsuario($objeto)
     {
-        $id_persona = $this->DaoPer->insertar($objeto);
+        // $id_persona = $this->DaoPer->insertar($objeto);
 
-        if ($id_persona) {
+        // if ($id_persona) {
+        if(true) {
             // Prepare and execute the second query
             $sql_query_pac = "INSERT INTO usuario (id_persona, rol, pass, estado) VALUES (?, ?, ?, ?)";
             $stmt_pac = $this->DaoPer->getConexion()->prepare_query($sql_query_pac);
@@ -100,6 +149,11 @@ class DAOUsuario
                 $rol = $objeto->getRol();
                 $pass = $objeto->getPassword();
                 $estado = $objeto->getEstado();
+                $id_persona = $objeto->getIdPersona();
+
+                // imprime en consola los valores que se van a insertar
+                echo "<script>console.log('id_persona: " . $id_persona . "');</script>";
+
                 $stmt_pac->bind_param("isss", $id_persona, $rol, $pass, $estado);
 
                 if ($stmt_pac->execute()) {

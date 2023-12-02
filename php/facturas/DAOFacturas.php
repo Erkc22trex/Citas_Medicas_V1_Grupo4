@@ -14,6 +14,20 @@ class DAOFacturas
         return $this->conn;
     }
 
+    public function obtenerDatosFactura($id_factura) {
+        $id_factura = mysqli_real_escape_string($this->conn, $id_factura);
+
+        $sql = "SELECT * FROM facturas WHERE id_factura = '$id_factura'";
+
+        $resultado = $this->conn->query($sql);
+
+        if ($resultado && $resultado->num_rows > 0) {
+            return $resultado->fetch_assoc();
+        }
+
+        return null;
+    }
+
     public function getCita()
     {
         $sql = "SELECT
