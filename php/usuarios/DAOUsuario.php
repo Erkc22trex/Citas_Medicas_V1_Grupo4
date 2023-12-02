@@ -70,10 +70,7 @@ class DAOUsuario
     public function getTabla()
     {
         $sql = "SELECT * FROM usuario usr INNER JOIN persona per ON usr.id_persona = per.id_persona;";
-
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
-
-        $accion = "actualizar";
 
         $tabla = "<table class='table table-dark'>
         <thead>
@@ -240,40 +237,64 @@ class DAOUsuario
 
     public function filtrarUsuario($valor, $criterio)
     {
-        // Cambiamos la consulta para buscar solo por DNI
-        $sql = "SELECT * FROM persona WHERE dni = '$valor'";
-
+        $sql = "SELECT * FROM usuario usr INNER JOIN persona per ON usr.id_persona = per.id_persona
+        where $criterio like '%$valor%';";
         $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
 
-        // Resto del código para generar la tabla, manteniendo los elementos deseados en el while
-        $tabla = "<table class='table table-dark'>"
-            . "<thead class='thead thead-light'>"
-            . "<tr><th>Primer Nombre</th><th>Segundo Nombre</th>"
-            . "<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
-            . "<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
-            . "<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
-            . "</tr></thead><tbody>";
+        $tabla = "<table class='table table-dark'>
+        <thead>
+            <tr>
+                <th scope='col'>Codigo</th>
+                <th scope='col'>DNI</th>
+                <th scope='col'>Nombre</th>
+                <th scope='col'>Apellido</th>
+                <th scope='col'>Telefono</th>
+                <th scope='col'>Edad</th>
+                <th scope='col'>Sexo</th>
+                <th scope='col'>Fecha nacimiento</th>
+                <th scope='col'>Correo</th>
+                <th scope='col'>Direccion</th>
+                <th scope='col'>Rol</th>
+                <th scope='col'>Estado</th>
+                <th scope='col'>Seleccionar</th>
+            </tr>
+        </thead><tbody>";
 
         while ($tupla = mysqli_fetch_assoc($res)) {
-            // Mantenemos solo las columnas necesarias (puedes agregar o quitar según lo necesites)
-            $tabla .= "<tr>"
-                . "<td>" . $tupla["primerNombre"] . "</td>"
-                . "<td>" . $tupla["segundoNombre"] . "</td>"
-                . "<td>" . $tupla["primerApellido"] . "</td>"
-                . "<td>" . $tupla["segundoApellido"] . "</td>"
+
+            $tabla .=
+                "<tr>"
+                . "<td>" . $tupla["id_usuario"] . "</td>"
                 . "<td>" . $tupla["dni"] . "</td>"
+                . "<td>" . $tupla["nombre"] . "</td>"
+                . "<td>" . $tupla["apellido"] . "</td>"
                 . "<td>" . $tupla["telefono"] . "</td>"
-                . "<td>" . $tupla["sexo"] . "</td>"
-                . "<td>" . $tupla["fechaDeNacimiento"] . "</td>"
                 . "<td>" . $tupla["edad"] . "</td>"
+                . "<td>" . $tupla["sexo"] . "</td>"
+                . "<td>" . $tupla["fecha_nacimiento"] . "</td>"
+                . "<td>" . $tupla["correo"] . "</td>"
                 . "<td>" . $tupla["direccion"] . "</td>"
-                . "<td>" . $tupla["correoElectronico"] . "</td>"
-                . "<td><a href=\"javascript:cargar('" . $tupla["primerNombre"]
-                . "','" . $tupla["segundoNombre"] . "','" . $tupla["primerApellido"] . "','" . $tupla["segundoApellido"]
-                . "','" . $tupla["dni"] . "','" . $tupla["telefono"] . "','" . $tupla["sexo"]
-                . "','" . $tupla["fechaDeNacimiento"] . "','" . $tupla["edad"] . "','" . $tupla["direccion"]
-                . "','" . $tupla["correoElectronico"]
-                . "')\">Seleccionar</a></td>"
+                . "<td>" . $tupla["rol"] . "</td>"
+                . "<td>" . $tupla["estado"] . "</td>"
+                . "<td>
+                    <button class='btn btn-success'>"
+                . "<a href='javascript:void(0);' class='link-offset-2 link-underline link-underline-opacity-0 text-light' onclick='seleccionar(\""
+                . 'actualizar' . "\",\""
+                . $tupla["id_usuario"] . "\",\""
+                . $tupla["id_persona"] . "\",\""
+                . $tupla["dni"] . "\",\""
+                . $tupla["nombre"] . "\",\""
+                . $tupla["apellido"] . "\",\""
+                . $tupla["telefono"] . "\",\""
+                . $tupla["edad"] . "\",\""
+                . $tupla["sexo"] . "\",\""
+                . $tupla["fecha_nacimiento"] . "\",\""
+                . $tupla["direccion"] . "\",\""
+                . $tupla["correo"] . "\",\""
+                . $tupla["rol"] . "\",\""
+                . $tupla["estado"] . "\")'>Seleccionar</a>
+                    </button>
+                </td>"
                 . "</tr>";
         }
 

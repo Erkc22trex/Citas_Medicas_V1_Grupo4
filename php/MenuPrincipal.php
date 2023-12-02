@@ -55,7 +55,7 @@
           <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">ESTADISTICAS</button>
         </div>
         <div class="col">
-          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return vistaExpedientes()">Cerrar sesión</button>
+          <button class="btn btn-primary btn-sm menu-button custon-btn w-100" onclick="return cerrarSesion()">CERRAR SESIÓN</button>
         </div>
       </div>
     </div>
@@ -90,6 +90,25 @@
 
     function vistaUsuarios() {
       window.location.href = "usuarios/TablaUsuarios.php";
+    }
+
+    function cerrarSesion() {
+      Swal.fire({
+        title: '¿Está seguro que desea cerrar sesión?',
+        text: "Se cerrará la sesión actual",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          localStorage.removeItem('correo');
+          localStorage.removeItem('rol');
+          localStorage.removeItem('id_persona');
+
+          window.location.href = "./login/login.php";
+        }
+      })
     }
   </SCRIPT>
 </body>

@@ -40,9 +40,10 @@ $usr = new Usuario();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
-                            <option value="dni">Identidad</option>
+                            <option value="usr.id_usuario">Código usuario</option>
+                            <option value="per.nombre">Nombre</option>
+                            <option value="per.apellido">Apellido</option>
+                            <option value="per.dni">Identidad</option>
                         </select>
                     </div>
                 </div>
@@ -60,7 +61,7 @@ $usr = new Usuario();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoUsr->filtrarUsuario($v1, $v2);
+        echo $foot . $DaoUsr->filtrarUsuario($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoUsr->getTabla() . "</section>";
     }

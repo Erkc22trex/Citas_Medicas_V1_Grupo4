@@ -39,8 +39,11 @@ $exp = new Expediente();
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="criterio" name="criterio">
-                            <option value="codigo">Código</option>
-                            <option value="nombre">Nombre</option>
+                            <option value="ep.id_expediente">Código</option>
+                            <option value="doc_persona.nombre">Nombre médico</option>
+                            <option value="doc_persona.apellido">Apellido médico</option>
+                            <option value="pac_persona.nombre">Nombre paciente</option>
+                            <option value="pac_persona.apellido">Apellido paciente</option>
                             <option value="dni">Identidad</option>
                         </select>
                     </div>
@@ -60,7 +63,7 @@ $exp = new Expediente();
         $v1 = $_REQUEST["buscar"];
         $v2 = $_REQUEST["criterio"];
 
-        echo $DaoExp->filtrarExpediente($v1, $v2);
+        echo $foot . $DaoExp->filtrarExpediente($v1, $v2) . "</section>";
     } else {
         echo $foot . $DaoExp->getTabla() . "</section>";
     }
