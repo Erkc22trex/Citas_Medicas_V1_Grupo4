@@ -107,8 +107,9 @@ class DAOItinerarios
             $stmt->bind_param("iss", $id_medico, $horaEntrada, $horaSalida);
 
             if ($stmt->execute()) {
-                header("Location: ./TablaItinerarios.php?id_medico=" . $id_medico);
-                exit(); 
+                echo "<script>
+                    window.location.href = './TablaItinerarios.php?id_medico=' + $id_medico;
+                </script>";
             } else {
                 echo "<script>swal({title:'Error',text:' No se ha podido ingresar a la base de datos.', type: 'error'});</script>";
             }
@@ -132,8 +133,9 @@ class DAOItinerarios
             $stmt->bind_param("issi", $id_medico, $horaEntrada, $horaSalida, $id_itinerario);
 
             if ($stmt->execute()) {
-                header("Location: ./TablaItinerarios.php?id_medico=" . $id_medico);
-                exit(); 
+                echo "<script>
+                    window.location.href = './TablaItinerarios.php?id_medico=' + $id_medico;
+                </script>";
             } else {
                 echo "<script>swal({title:'Error',text:' No se ha podido actualizar a la base de datos.', type: 'error'});</script>";
             }
@@ -154,8 +156,10 @@ class DAOItinerarios
             $stmt->bind_param("i", $id_itinerario);
 
             if ($stmt->execute()) {
-                header("Location: ./TablaItinerarios.php?id_medico=" . $itn->getIdMedico());
-                exit(); 
+                $id_medico = $itn->getIdMedico();
+                echo "<script>
+                    window.location.href = './TablaItinerarios.php?id_medico=' + $id_medico;
+                </script>";
             } else {
                 echo "<script>swal({title:'Error',text:' No se ha podido eliminar a la base de datos.', type: 'error'});</script>";
             }
@@ -164,47 +168,4 @@ class DAOItinerarios
         }
     }
 
-    public function filtrarItinerario($valor, $criterio)
-    {
-        // Cambiamos la consulta para buscar solo por DNI
-        // $sql = "SELECT * FROM persona WHERE dni = '$valor'";
-
-        // $res = $this->DaoPer->getConexion()->hacerConsulta($sql);
-
-        // // Resto del código para generar la tabla, manteniendo los elementos deseados en el while
-        // $tabla = "<table class='table table-dark'>"
-        //     . "<thead class='thead thead-light'>"
-        //     . "<tr><th>Primer Nombre</th><th>Segundo Nombre</th>"
-        //     . "<th>Primer Apellido</th><th>Segundo Apellido</th><th>DNI</th>"
-        //     . "<th>Telefono</th><th>Sexo</th><th>Fecha De Nacimiento</th>"
-        //     . "<th>Edad</th><th>Direccion</th><th>Correo Electronico</th><th>Accion</th>"
-        //     . "</tr></thead><tbody>";
-
-        // while ($tupla = mysqli_fetch_assoc($res)) {
-        //     // Mantenemos solo las columnas necesarias (puedes agregar o quitar según lo necesites)
-        //     $tabla .= "<tr>"
-        //         . "<td>" . $tupla["primerNombre"] . "</td>"
-        //         . "<td>" . $tupla["segundoNombre"] . "</td>"
-        //         . "<td>" . $tupla["primerApellido"] . "</td>"
-        //         . "<td>" . $tupla["segundoApellido"] . "</td>"
-        //         . "<td>" . $tupla["dni"] . "</td>"
-        //         . "<td>" . $tupla["telefono"] . "</td>"
-        //         . "<td>" . $tupla["sexo"] . "</td>"
-        //         . "<td>" . $tupla["fechaDeNacimiento"] . "</td>"
-        //         . "<td>" . $tupla["edad"] . "</td>"
-        //         . "<td>" . $tupla["direccion"] . "</td>"
-        //         . "<td>" . $tupla["correoElectronico"] . "</td>"
-        //         . "<td><a href=\"javascript:cargar('" . $tupla["primerNombre"]
-        //         . "','" . $tupla["segundoNombre"] . "','" . $tupla["primerApellido"] . "','" . $tupla["segundoApellido"]
-        //         . "','" . $tupla["dni"] . "','" . $tupla["telefono"] . "','" . $tupla["sexo"]
-        //         . "','" . $tupla["fechaDeNacimiento"] . "','" . $tupla["edad"] . "','" . $tupla["direccion"]
-        //         . "','" . $tupla["correoElectronico"]
-        //         . "')\">Seleccionar</a></td>"
-        //         . "</tr>";
-        // }
-
-        // $tabla .= "</tbody></table>";
-        // $res->close();
-        // return $tabla;
-    }
 }

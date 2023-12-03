@@ -61,7 +61,6 @@
     </div>
   </main>
 
-
   <!-- Scripts -->
   <script>
     function vistaExpedientes() {

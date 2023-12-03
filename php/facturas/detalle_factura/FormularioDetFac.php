@@ -93,7 +93,13 @@ $detFac = new DetalleFactura();
         }
 
         function regresar() {
-            window.location.href = "../FormularioFacturas.php?id_factura=" + document.getElementById("id_factura").value;
+            
+            var id_factura = document.getElementById("id_factura").value;
+
+            if(id_factura){
+                window.location.href = "../FormularioFacturas.php?id_factura=" + document.getElementById("id_factura").value;
+            }
+
         }
     </script>
 

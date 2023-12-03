@@ -45,7 +45,6 @@ $cta = new Cita();
                 <select class="form-select" id="estado" name="estado" aria-label="Default select example">
                     <option <?php echo (!isset($_GET['estado']) || $_GET['estado'] === 'Seleccione un estado') ? 'selected' : ''; ?>>Seleccione un estado</option>
                     <option value="Pendiente" <?php echo (isset($_GET['estado']) && $_GET['estado'] === 'Pendiente') ? 'selected' : ''; ?>>Pendiente</option>
-                    <option value="Realizada" <?php echo (isset($_GET['estado']) && $_GET['estado'] === 'Realizada') ? 'selected' : ''; ?>>Realizada</option>
                     <option value="Cancelada" <?php echo (isset($_GET['estado']) && $_GET['estado'] === 'Cancelada') ? 'selected' : ''; ?>>Cancelada</option>
                     <option value="Finalizada" <?php echo (isset($_GET['estado']) && $_GET['estado'] === 'Finalizada') ? 'selected' : ''; ?>>Finalizada</option>
                 </select>

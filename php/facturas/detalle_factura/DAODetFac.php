@@ -12,7 +12,9 @@ class DAODetFac
 
     public function navegar($idFactura)
     {
-        header("location: ./FormularioDetFac.php" . "?id_factura=" . $idFactura);
+        echo "<script>
+                window.location.href = './FormularioDetFac.php?id_factura=' + $idFactura;
+            </script>";
     }
 
     public function getTabla($idFactura)
